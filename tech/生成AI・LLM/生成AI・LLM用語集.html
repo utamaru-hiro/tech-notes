@@ -837,17 +837,17 @@
     const toolbarPlaceholder = document.getElementById('toolbar-placeholder');
     const toolbarPanel = document.querySelector('section.panel');
 
+    let lastScrollY = window.scrollY;
+
     const updateFloating = () => {
+      const currentY = window.scrollY;
+      const scrollingUp = currentY < lastScrollY;
+      lastScrollY = currentY;
+
       const panelBottom = toolbarPanel.getBoundingClientRect().bottom;
-      if (panelBottom < 0) {
-        if (!toolbarControls.classList.contains('is-floating')) {
-          toolbarPlaceholder.style.height = toolbarControls.offsetHeight + 'px';
-          toolbarPlaceholder.style.display = 'block';
-          document.body.appendChild(toolbarControls);
-          toolbarControls.classList.add('is-floating');
-          requestAnimationFrame(() => toolbarControls.classList.add('is-visible'));
-        }
-      } else {
+
+      if (panelBottom >= 0) {
+        // パネルが見えている → フローティング解除
         if (toolbarControls.classList.contains('is-floating')) {
           toolbarControls.classList.remove('is-visible');
           setTimeout(() => {
@@ -856,6 +856,22 @@
             toolbarPlaceholder.style.display = 'none';
           }, 260);
         }
+        return;
+      }
+
+      // パネルが画面外 → フローティング状態にする
+      if (!toolbarControls.classList.contains('is-floating')) {
+        toolbarPlaceholder.style.height = toolbarControls.offsetHeight + 'px';
+        toolbarPlaceholder.style.display = 'block';
+        document.body.appendChild(toolbarControls);
+        toolbarControls.classList.add('is-floating');
+      }
+
+      // 上スクロール（下スワイプ）→ 表示、下スクロール（上スワイプ）→ 非表示
+      if (scrollingUp) {
+        toolbarControls.classList.add('is-visible');
+      } else {
+        toolbarControls.classList.remove('is-visible');
       }
     };
 
