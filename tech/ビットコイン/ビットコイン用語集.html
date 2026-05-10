@@ -405,17 +405,9 @@
       line-height: 1;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(61, 42, 18, 0.22);
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      pointer-events: none;
-      z-index: 100;
-    }
-
-    #back-to-top.is-visible {
       opacity: 1;
       transform: translateY(0);
-      pointer-events: auto;
+      z-index: 100;
     }
 
     #back-to-top:hover {
@@ -437,18 +429,9 @@
       padding: 0;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(61, 42, 18, 0.22);
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      pointer-events: none;
+      opacity: 1;
       z-index: 100;
       backdrop-filter: blur(8px);
-    }
-
-    #home-btn.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
     }
 
     #home-btn:hover {
@@ -804,11 +787,6 @@
 
     const backToTop = document.getElementById('back-to-top');
     const homeBtn = document.getElementById('home-btn');
-    window.addEventListener('scroll', () => {
-      const show = window.scrollY > 300;
-      backToTop.classList.toggle('is-visible', show);
-      homeBtn.classList.toggle('is-visible', show);
-    }, { passive: true });
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
