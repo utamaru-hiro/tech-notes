@@ -452,6 +452,39 @@
       background: #a04820;
     }
 
+    #home-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 88px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: var(--panel);
+      color: var(--text);
+      font-size: 1.3rem;
+      line-height: 1;
+      padding: 0;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(61, 42, 18, 0.22);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    #home-btn.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #home-btn:hover {
+      background: rgba(255, 250, 242, 1);
+    }
+
     @media (max-width: 640px) {
       header {
         padding: 24px 16px 18px;
@@ -549,39 +582,6 @@
       .toolbar-controls.is-floating { top: 8px; left: 8px; right: 8px; flex-direction: column; gap: 8px; }
       #back-to-top { right: 16px; bottom: 20px; }
       #home-btn { right: 72px; bottom: 20px; }
-    }
-
-    #home-btn {
-      position: fixed;
-      bottom: 32px;
-      right: 88px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      background: var(--panel);
-      color: var(--text);
-      font-size: 1.3rem;
-      line-height: 1;
-      padding: 0;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(61, 42, 18, 0.22);
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      pointer-events: none;
-      z-index: 100;
-      backdrop-filter: blur(8px);
-    }
-
-    #home-btn.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    #home-btn:hover {
-      background: rgba(255, 250, 242, 1);
     }
   </style>
 </head>
