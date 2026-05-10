@@ -449,15 +449,55 @@
     }
 
     @media (max-width: 480px) {
-      header { padding: 14px 12px 12px; }
-      main, footer { padding-left: 12px; padding-right: 12px; }
-      .hero { padding: 20px 16px; }
-      .panel { padding: 14px; }
+      header { padding: 14px 8px 12px; }
+      main, footer { padding-left: 8px; padding-right: 8px; }
+      .hero { padding: 16px 12px; }
+      .panel { padding: 10px 8px; }
+      td { padding: 6px 8px; }
+      .detail-row { padding: 0 8px 10px; }
       .search-wrap { flex-wrap: wrap; gap: 8px; }
       input[type="search"] { flex: 1; min-width: 0; width: auto; }
       .count-pill { width: 100%; text-align: center; }
       .toolbar-controls.is-floating { top: 8px; left: 8px; right: 8px; flex-direction: column; gap: 8px; }
       #back-to-top { right: 16px; bottom: 20px; }
+      #home-btn { right: 72px; bottom: 20px; }
+    }
+
+    #home-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 88px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: var(--panel);
+      color: var(--text);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(61, 42, 18, 0.22);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    #home-btn.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #home-btn:hover {
+      background: rgba(255, 250, 242, 1);
     }
   </style>
 </head>
@@ -510,6 +550,7 @@
   <footer>
   </footer>
 
+  <a id="home-btn" href="../../index.html" aria-label="ホームへ戻る">🏠</a>
   <button id="back-to-top" aria-label="ページトップへ戻る">↑</button>
 
   <script src="./ビットコイン用語集.data.js"></script>
@@ -750,8 +791,11 @@
     window.addEventListener('scroll', updateFloating, { passive: true });
 
     const backToTop = document.getElementById('back-to-top');
+    const homeBtn = document.getElementById('home-btn');
     window.addEventListener('scroll', () => {
-      backToTop.classList.toggle('is-visible', window.scrollY > 300);
+      const show = window.scrollY > 300;
+      backToTop.classList.toggle('is-visible', show);
+      homeBtn.classList.toggle('is-visible', show);
     }, { passive: true });
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
