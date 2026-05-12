@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C 言語仕様ガイド</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
+  <style>
+    :root {
+      --bg: #f5efe3;
+      --panel: rgba(255, 250, 242, 0.95);
+      --text: #243126;
+      --muted: #5a695c;
+      --line: rgba(36, 49, 38, 0.14);
+      --accent: #4a6fa5;
+      --accent2: #e8f0fb;
+      --shadow: 0 18px 50px rgba(61, 42, 18, 0.12);
+      --shadow-sm: 0 4px 18px rgba(36, 49, 38, 0.09);
+      --sidebar-w: 250px;
+      --code-bg: #f8f5ef;
+      --code-border: rgba(36,49,38,0.1);
+      --warn-bg: rgba(255, 180, 50, 0.10);
+      --warn-border: rgba(210, 140, 0, 0.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left,  rgba(74, 111, 165, 0.15), transparent 30%),
+        radial-gradient(circle at top right, rgba(168, 180, 200, 0.18), transparent 28%),
+        linear-gradient(180deg, #eef2f8 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 24px 14px 48px;
+      background: rgba(255, 250, 242, 0.92);
+      backdrop-filter: blur(14px);
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 6px 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+    .c-badge {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1e3a5f, #4a6fa5);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 0.82rem; color: #fff;
+      flex-shrink: 0;
+    }
+    .sidebar-logo span { font-weight: 700; font-size: 0.88rem; line-height: 1.35; }
+    .nav-group-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 8px 3px;
+    }
+    .nav-link {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.86rem;
+      line-height: 1.4;
+      transition: background 0.13s, color 0.13s;
+    }
+    .nav-link .num {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      min-width: 16px;
+      flex-shrink: 0;
+    }
+    .nav-link:hover { background: rgba(74,111,165,0.1); color: var(--accent); }
+    .nav-link.active { background: rgba(74,111,165,0.14); color: var(--accent); font-weight: 700; }
+    .main { flex: 1; min-width: 0; padding: 0 0 80px; }
+    .hero {
+      padding: 48px 44px 36px;
+      background: rgba(255,250,242,0.7);
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "⚙️";
+      position: absolute;
+      right: 40px; top: 28px;
+      font-size: 7rem;
+      opacity: 0.1;
+      pointer-events: none;
+    }
+    .hero h1 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); letter-spacing: 0.02em; margin-bottom: 10px; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero .lead { color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 600px; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .chip {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(74,111,165,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(74,111,165,0.2);
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 44px;
+      background: rgba(255,250,242,0.92);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      flex-wrap: wrap;
+    }
+    .level-tabs {
+      display: inline-flex;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(36,49,38,0.07);
+      gap: 3px;
+    }
+    .level-tab {
+      appearance: none; border: 0; background: transparent;
+      color: var(--muted); padding: 8px 16px;
+      border-radius: 999px; font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .level-tab.is-active { background: #fff; color: var(--text); box-shadow: 0 4px 12px rgba(36,49,38,0.1); }
+    .search-wrap { margin-left: auto; position: relative; }
+    .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; opacity: 0.4; }
+    input[type="search"] {
+      width: 210px; padding: 9px 14px 9px 34px;
+      border-radius: 999px; border: 1px solid var(--line);
+      background: rgba(255,255,255,0.9); font-size: 0.9rem; color: var(--text); font-family: inherit;
+    }
+    input[type="search"]:focus { outline: 2px solid rgba(74,111,165,0.4); outline-offset: 1px; }
+    .content { padding: 32px 44px; display: flex; flex-direction: column; gap: 32px; }
+    .section-card {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 24px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      scroll-margin-top: 60px;
+    }
+    .section-card.hidden { display: none; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 28px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(74,111,165,0.1);
+      border-radius: 6px;
+      padding: 2px 8px;
+      flex-shrink: 0;
+    }
+    .section-head h2 { font-size: 1.15rem; font-weight: 800; }
+    .section-head .badge {
+      margin-left: auto;
+      padding: 3px 12px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: rgba(36,49,38,0.07);
+      color: var(--muted);
+    }
+    .items-list { padding: 20px 28px; display: flex; flex-direction: column; gap: 28px; }
+    .item { display: flex; flex-direction: column; gap: 8px; }
+    .item.hidden { display: none; }
+    .item-header { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .item-name {
+      font-size: 1rem; font-weight: 800;
+      font-family: "SF Mono","Fira Code","Consolas",monospace;
+      color: var(--accent);
+    }
+    .level-pill { padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; }
+    .pill-basic    { background: rgba(74,111,165,0.12); color: #2a4f8a; }
+    .pill-advanced { background: rgba(120,60,160,0.12); color: #7b3fb8; }
+    .item-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.78; }
+    .item-desc code {
+      font-family: "SF Mono","Fira Code","Consolas",monospace;
+      font-size: 0.88em;
+      background: rgba(36,49,38,0.07);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .warn-box {
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-left: 3px solid #d4900a;
+      font-size: 0.88rem;
+      line-height: 1.72;
+      color: var(--text);
+    }
+    .warn-box::before {
+      content: "⚠️  要注意";
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #a06c00;
+      margin-bottom: 5px;
+      font-family: "Hiragino Sans","Yu Gothic",sans-serif;
+    }
+    .warn-box code {
+      font-family: "SF Mono","Fira Code","Consolas",monospace;
+      font-size: 0.88em;
+      background: rgba(180,120,0,0.1);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .code-wrap {
+      border-radius: 14px; overflow: hidden;
+      background: var(--code-bg); border: 1px solid var(--code-border);
+    }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 14px 7px;
+      background: rgba(36,49,38,0.05); border-bottom: 1px solid var(--code-border);
+    }
+    .code-lang { font-size: 0.72rem; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; }
+    .copy-btn {
+      appearance: none; border: 1px solid var(--line); background: rgba(255,255,255,0.8);
+      padding: 3px 12px; border-radius: 999px; font-size: 0.72rem;
+      cursor: pointer; color: var(--muted); font-family: inherit; transition: all 0.15s;
+    }
+    .copy-btn:hover { background: #fff; color: var(--text); }
+    .copy-btn.copied { color: #2a8a4a; border-color: #2a8a4a; }
+    .code-wrap pre {
+      margin: 0; padding: 14px 18px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      font-size: 0.87rem; line-height: 1.7; background: transparent !important;
+    }
+    .code-wrap code {
+      font-family: "SF Mono","Fira Code","Consolas",monospace !important;
+      font-size: inherit !important; background: transparent !important;
+    }
+    .output-box {
+      border-radius: 10px; padding: 11px 15px;
+      background: rgba(36,49,38,0.04); border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      font-family: "SF Mono","Fira Code","Consolas",monospace;
+      font-size: 0.83rem; color: var(--muted); line-height: 1.7;
+      white-space: pre;
+    }
+    .output-box::before {
+      content: "出力";
+      display: block; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.06em; color: var(--accent); margin-bottom: 5px;
+      font-family: "Hiragino Sans","Yu Gothic",sans-serif;
+    }
+    .no-results { text-align: center; padding: 48px; color: var(--muted); font-size: 0.95rem; display: none; }
+    .floating-btns { position: fixed; bottom: 28px; right: 28px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+    .float-btn {
+      width: 44px; height: 44px; border-radius: 13px;
+      background: var(--panel); border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.05rem; text-decoration: none;
+      color: var(--text); transition: all 0.15s;
+    }
+    .float-btn:hover { background: rgba(74,111,165,0.1); color: var(--accent); }
+    .mobile-nav-toggle {
+      display: none; position: fixed; bottom: 28px; left: 28px; z-index: 200;
+      width: 44px; height: 44px; border-radius: 13px;
+      background: var(--accent); border: none; color: #fff;
+      font-size: 1.15rem; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(74,111,165,0.4);
+      align-items: center; justify-content: center;
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed; left: 0; top: 0; z-index: 150;
+        transform: translateX(-100%); transition: transform 0.25s ease;
+        box-shadow: 4px 0 32px rgba(36,49,38,0.15);
+      }
+      .sidebar.is-open { transform: translateX(0); }
+      .mobile-nav-toggle { display: flex; }
+      .hero { padding: 28px 18px 24px; }
+      .hero h1 { font-size: clamp(1.5rem, 6vw, 2rem); }
+      .hero .lead { font-size: 0.9rem; }
+      .toolbar { padding: 10px 16px; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .search-wrap { margin-left: 0; width: 100%; }
+      input[type="search"] { width: 100%; }
+      .content { padding: 16px 12px; }
+      .section-head { padding: 14px 18px 12px; }
+      .section-head h2 { font-size: 1.05rem; }
+      .items-list { padding: 14px 16px; gap: 22px; }
+      .item-desc { font-size: 0.88rem; }
+      .code-wrap { border-radius: 11px; }
+      .code-header { padding: 7px 12px 6px; }
+      .code-wrap pre { padding: 11px 13px; font-size: 0.78rem; line-height: 1.65; }
+      .output-box { font-size: 0.78rem; padding: 9px 12px; }
+      .floating-btns { bottom: 80px; }
+    }
+    @media (max-width: 390px) {
+      .level-tabs { width: 100%; }
+      .level-tab { flex: 1; text-align: center; padding: 8px 6px; font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="c-badge">C</div>
+      <span>C<br>言語仕様ガイド</span>
+    </div>
+
+    <div class="nav-group-label">基礎</div>
+    <a class="nav-link active" href="#s1" data-section="s1"><span class="num">1</span>変数と基本型</a>
+    <a class="nav-link" href="#s2" data-section="s2"><span class="num">2</span>演算子と式</a>
+    <a class="nav-link" href="#s3" data-section="s3"><span class="num">3</span>制御フロー</a>
+    <a class="nav-link" href="#s4" data-section="s4"><span class="num">4</span>関数</a>
+    <a class="nav-link" href="#s5" data-section="s5"><span class="num">5</span>配列と文字列</a>
+    <a class="nav-link" href="#s6" data-section="s6"><span class="num">6</span>ポインタ</a>
+    <a class="nav-link" href="#s7" data-section="s7"><span class="num">7</span>構造体・共用体・列挙型</a>
+
+    <div class="nav-group-label" style="margin-top:6px;">実用</div>
+    <a class="nav-link" href="#s8" data-section="s8"><span class="num">8</span>メモリ管理</a>
+    <a class="nav-link" href="#s9" data-section="s9"><span class="num">9</span>ファイルI/O</a>
+    <a class="nav-link" href="#s10" data-section="s10"><span class="num">10</span>プリプロセッサとマクロ</a>
+    <a class="nav-link" href="#s11" data-section="s11"><span class="num">11</span>標準ライブラリ</a>
+
+    <div class="nav-group-label" style="margin-top:6px;">応用</div>
+    <a class="nav-link" href="#s12" data-section="s12"><span class="num">12</span>コンパイルとリンク</a>
+    <a class="nav-link" href="#s13" data-section="s13"><span class="num">13</span>未定義動作と移植性</a>
+    <a class="nav-link" href="#s14" data-section="s14"><span class="num">14</span>モダンC（C99/C11/C17）</a>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <header class="hero">
+      <h1><em>C</em> 言語仕様ガイド</h1>
+      <p class="lead">他言語の経験者が 2〜3 時間でざっと読み通せるリファレンスです。C 固有の落とし穴（ポインタ・未定義動作・メモリ管理）は「要注意」ボックスで強調しています。</p>
+      <div class="hero-chips">
+        <span class="chip">C11/C17</span>
+        <span class="chip">経験者向け</span>
+        <span class="chip">コード例付き</span>
+      </div>
+    </header>
+
+    <div class="toolbar" id="toolbar">
+      <div class="level-tabs" role="tablist">
+        <button class="level-tab is-active" data-level="all">すべて</button>
+        <button class="level-tab" data-level="basic">基礎</button>
+        <button class="level-tab" data-level="advanced">応用</button>
+      </div>
+      <div class="search-wrap">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3a6 6 0 100 12A6 6 0 009 3zM1 9a8 8 0 1114.32 4.906l3.387 3.387a1 1 0 01-1.414 1.414l-3.387-3.387A8 8 0 011 9z" clip-rule="evenodd"/></svg>
+        <input type="search" id="search-input" placeholder="キーワードで検索…">
+      </div>
+    </div>
+
+    <main class="content" id="content">
+      <p class="no-results" id="no-results">一致する項目が見つかりませんでした。</p>
+
+      <!-- ================================================================
+           1. 変数と基本型
+      ================================================================ -->
+      <div class="section-card" id="s1" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">01</span>
+          <h2>変数と基本型</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="変数 型 int char float double void 宣言 サイズ stdint">
+            <div class="item-header">
+              <span class="item-name">基本データ型</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C の型サイズは処理系依存。<code>int</code> は「少なくとも 16bit」の保証しかない。移植性が必要な場合は <code>&lt;stdint.h&gt;</code> の固定幅型（<code>int32_t</code> 等）を使う。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">char      c = 'A';     // 1バイト（文字 or 小整数）
+short     s = 32767;   // 少なくとも 16bit
+int       i = -42;     // 少なくとも 16bit（多くの環境で 32bit）
+long      l = 100000L; // 少なくとも 32bit
+long long ll = 9LL;    // 少なくとも 64bit（C99 以降）
+float     f = 3.14f;   // 32bit 単精度
+double    d = 3.14159; // 64bit 倍精度
+void     *p;           // 型なしポインタ
+
+// 移植性重視なら &lt;stdint.h&gt;
+#include &lt;stdint.h&gt;
+int32_t  a = 0;        // 必ず 32bit 符号付き
+uint8_t  b = 255;      // 必ず 8bit 符号なし</code></pre>
+            </div>
+            <div class="warn-box"><code>long</code> は LP64 環境（Linux 64bit）では 64bit、Windows 64bit（LLP64）では 32bit と環境によって異なる。固定幅が必要な場合は必ず <code>&lt;stdint.h&gt;</code> を使う。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="signed unsigned 符号 オーバーフロー 整数 混在比較">
+            <div class="item-header">
+              <span class="item-name">signed / unsigned</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc"><code>char</code> の符号性は処理系依存。<code>unsigned</code> 演算のラップアラウンドは定義済み動作だが、<code>signed</code> のオーバーフローは未定義動作（UB）。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">unsigned int u = 0;
+u - 1;           // UINT_MAX（ラップアラウンド、合法）
+
+int i = INT_MAX;
+i + 1;           // 未定義動作！（符号付きオーバーフロー）
+
+// 混在比較の罠
+int     neg = -1;
+unsigned int pos = 1;
+if (neg &lt; pos) { }  // 偽！neg が unsigned に昇格して大きな値になる</code></pre>
+            </div>
+            <div class="warn-box">符号付き整数のオーバーフローは未定義動作。コンパイラは「オーバーフローしない前提」で最適化するため、期待した動作にならないことがある。<code>signed</code> と <code>unsigned</code> の混在比較にも注意。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="初期化 未初期化 ゴミ値 自動変数 static グローバル">
+            <div class="item-header">
+              <span class="item-name">変数の初期化</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">自動変数（ローカル変数）は初期化しないとゴミ値になる。グローバル変数と <code>static</code> 変数はゼロ初期化される。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int g;            // グローバル → 0 に初期化
+static int s;     // static    → 0 に初期化
+
+void f(void) {
+    int local;    // 自動変数  → 不定（ゴミ値）
+    int x = 0;   // 明示的な初期化が安全
+
+    // C99 以降：宣言は先頭以外にも書ける
+    for (int i = 0; i &lt; 10; i++) { }
+}</code></pre>
+            </div>
+            <div class="warn-box">未初期化の自動変数を読み取ると未定義動作。<code>-Wuninitialized</code>（GCC/Clang）で警告が出るよう <code>-Wall</code> を常に付けてコンパイルする。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="const 定数 #define マクロ 型付き定数">
+            <div class="item-header">
+              <span class="item-name">定数：const と #define</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc"><code>const</code> は型情報を持ちデバッガで確認できる。<code>#define</code> はプリプロセッサによる単純テキスト置換で型を持たない。<code>const</code> ポインタには 2 通りの意味がある。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#define MAX_BUF 256       // 型なし定数（プリプロセッサ）
+const int MAX_RETRY = 3;  // 型付き定数（推奨）
+
+// const ポインタの 2 つの意味
+const int *p;   // 「const int へのポインタ」→ *p 変更不可
+int * const q;  // 「int への const ポインタ」→ q 自体が変更不可
+const int * const r; // 両方不可</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="sizeof サイズ 配列 ポインタ 要素数">
+            <div class="item-header">
+              <span class="item-name">sizeof 演算子</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">コンパイル時に評価される演算子（関数ではない）。<code>size_t</code> 型の値を返す。配列の要素数を求める常套句として使われる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">sizeof(int)     // 4（多くの環境）
+sizeof(double)  // 8
+sizeof(char)    // 常に 1
+
+int arr[10];
+sizeof(arr)                    // 40（配列全体のバイト数）
+sizeof(arr) / sizeof(arr[0])   // 10（要素数の常套句）
+
+int *p = arr;
+sizeof(p)       // 8（ポインタのサイズ）← 配列サイズではない！</code></pre>
+            </div>
+            <div class="warn-box">関数の引数として配列を渡すと内部ではポインタに成り下がる（decay）。その引数に <code>sizeof</code> を適用するとポインタのサイズ（通常 8）が返り、配列の全バイト数は取得できない。</div>
+          </div>
+
+        </div>
+      </div><!-- /s1 -->
+
+      <!-- ================================================================
+           2. 演算子と式
+      ================================================================ -->
+      <div class="section-card" id="s2" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">02</span>
+          <h2>演算子と式</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="算術 除算 剰余 整数 切り捨て 負数">
+            <div class="item-header">
+              <span class="item-name">算術演算子</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">整数同士の <code>/</code> は切り捨て除算（ゼロ方向への丸め、C99 以降で規定）。負数の剰余は割られる数の符号に合わせる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">10 / 3    // 3（整数切り捨て）
+10 % 3    // 1（余り）
+-7 / 2    // -3（C99: ゼロ方向切り捨て）
+-7 % 2    // -1（割られる数と同符号）
+10.0 / 3  // 3.333...（どちらかが浮動小数なら浮動小数演算）</code></pre>
+            </div>
+            <div class="warn-box">C89 では負数の除算の丸め方向が処理系依存だった。C99 以降はゼロ方向への切り捨てと規定されたが、古いコンパイラや組み込み環境では注意が必要。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="ビット演算 AND OR XOR NOT シフト &amp; | ^ ~ &lt;&lt; &gt;&gt; フラグ">
+            <div class="item-header">
+              <span class="item-name">ビット演算子</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc"><code>&amp;</code>（AND）、<code>|</code>（OR）、<code>^</code>（XOR）、<code>~</code>（NOT）、<code>&lt;&lt;</code>/<code>&gt;&gt;</code>（シフト）。フラグ操作などで頻繁に使われる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">unsigned int flags = 0x0A; // 0b00001010
+
+flags &amp; 0x03   // 0x02（AND: 共通ビット抽出）
+flags | 0x05   // 0x0F（OR:  ビット追加）
+flags ^ 0x0F   // 0x05（XOR: ビット反転）
+~flags         // 0xFFFFFFF5（全ビット反転）
+1u &lt;&lt; 3        // 8（左シフト = 2^3 倍）
+16u &gt;&gt; 2       // 4（右シフト = 4 で割る）</code></pre>
+            </div>
+            <div class="warn-box">符号付き整数の右シフトが算術シフト（符号拡張）か論理シフト（0 埋め）かは処理系依存。<code>unsigned</code> は常に論理シフト。符号付き整数の負値をシフトすると未定義動作。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="代入 = == 比較 混同 if バグ">
+            <div class="item-header">
+              <span class="item-name">= と == の罠</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc"><code>=</code> は代入式で、式として評価すると代入後の値になる。<code>if</code> 条件内に書いても文法上は正しいためコンパイルエラーにならない。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int x = 5;
+if (x = 0) {       // バグ！x に 0 を代入し評価値が 0（偽）
+    printf("zero\n");  // 実行されない
+}
+
+// ヨーダ記法で防ぐ（定数を左辺に）
+if (0 == x) { }    // 0 = x はコンパイルエラーになるので安全
+
+// 意図的な代入ループは括弧で明示
+int c;
+while ((c = getchar()) != EOF) { }</code></pre>
+            </div>
+            <div class="warn-box"><code>-Wall</code>（または <code>-Wparentheses</code>）を有効にすると <code>if (x = 0)</code> に警告が出る。常に <code>-Wall -Wextra</code> でコンパイルすること。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="インクリメント デクリメント ++ -- 前置 後置 副作用 シーケンスポイント">
+            <div class="item-header">
+              <span class="item-name">インクリメント/デクリメントと副作用</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">前置 <code>++i</code> はインクリメント後の値、後置 <code>i++</code> はインクリメント前の値を返す。1 つの式の中で同一変数を複数回変更するのは未定義動作。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int i = 3;
+int a = ++i;  // a = 4, i = 4（前置）
+int b = i++;  // b = 4, i = 5（後置）
+
+// 未定義動作の例
+int x = 1;
+int y = x++ + x++;  // 未定義動作！
+a[i] = i++;         // 未定義動作！</code></pre>
+            </div>
+            <div class="warn-box">1 つの式でシーケンスポイントをまたいで同一変数を複数回更新するのは未定義動作。コンパイラの最適化によって結果が変わる。式を分割して書くのが安全。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="演算子優先順位 括弧 ビット演算 比較 &amp; | ==">
+            <div class="item-header">
+              <span class="item-name">演算子の優先順位</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C は 15 段階の優先順位を持つ。特に <code>&amp;</code>/<code>|</code> はビット演算子で <code>==</code> より低い優先順位になっている点が罠になりやすい。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// よくある罠
+if (flags &amp; MASK == 0) { }    // (flags &amp; (MASK == 0)) と解釈される！
+
+// 正しい書き方
+if ((flags &amp; MASK) == 0) { }  // 括弧で優先順位を明示
+
+// 三項演算子（右結合）
+int max = a &gt; b ? a : b;</code></pre>
+            </div>
+            <div class="warn-box">ビット演算（<code>&amp;</code>/<code>|</code>/<code>^</code>）の優先順位は比較演算（<code>==</code>/<code>!=</code>/<code>&lt;</code> 等）より低い。これは C 言語の設計上の歴史的な問題。混在させる場合は必ず括弧を付ける。</div>
+          </div>
+
+        </div>
+      </div><!-- /s2 -->
+
+      <!-- ================================================================
+           3. 制御フロー
+      ================================================================ -->
+      <div class="section-card" id="s3" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">03</span>
+          <h2>制御フロー</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="if else 条件分岐 truthy falsy ゼロ判定">
+            <div class="item-header">
+              <span class="item-name">if / else</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C に <code>bool</code> 型はなかった（C99 で <code>_Bool</code> 追加）。条件式はゼロが偽、非ゼロが真。ポインタの NULL チェックも慣用的に <code>if (ptr)</code> と書く。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// C99 以降：&lt;stdbool.h&gt; で bool/true/false が使える
+#include &lt;stdbool.h&gt;
+bool flag = true;
+
+int *p = get_ptr();
+if (p) {           // p != NULL と同じ意味（慣用句）
+    *p = 42;
+}
+
+if (x &gt; 0) {
+    puts("positive");
+} else if (x &lt; 0) {
+    puts("negative");
+} else {
+    puts("zero");
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="switch case フォールスルー break default">
+            <div class="item-header">
+              <span class="item-name">switch / case とフォールスルー</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc"><code>break</code> を書かないと次の <code>case</code> に処理が落ちる（フォールスルー）。意図的なフォールスルーはコメントで明示する慣習。<code>switch</code> は整数型と列挙型のみ使用可。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int code = 2;
+switch (code) {
+    case 1:
+        puts("one");
+        break;
+    case 2:
+    case 3:              // フォールスルーで 2 と 3 を同じ処理に
+        puts("two or three");
+        break;
+    default:
+        puts("other");
+        break;
+}
+
+// 意図しないフォールスルーを防ぐため break を忘れずに</code></pre>
+            </div>
+            <div class="warn-box"><code>case</code> の末尾に <code>break</code> を書き忘れると次の <code>case</code> に処理が流れ込む。<code>-Wimplicit-fallthrough</code>（GCC 7+）で警告を出せる。意図的なフォールスルーは <code>/* fallthrough */</code> コメントで示す。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="for while do-while ループ break continue">
+            <div class="item-header">
+              <span class="item-name">for / while / do-while</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C89 では <code>for</code> 文の初期化部に変数宣言を書けない（C99 以降は可）。<code>do-while</code> は最低 1 回実行されることが保証される。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// C99 以降：for 文内で変数宣言可
+for (int i = 0; i &lt; 10; i++) {
+    if (i == 5) continue;  // このイテレーションをスキップ
+    if (i == 8) break;     // ループを抜ける
+    printf("%d ", i);
+}
+
+// while
+int n = 10;
+while (n &gt; 0) { n--; }
+
+// do-while（最低 1 回実行）
+int input;
+do {
+    scanf("%d", &amp;input);
+} while (input &lt; 0);  // 正の値が入力されるまで繰り返す</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="goto ラベル ジャンプ クリーンアップ エラー処理">
+            <div class="item-header">
+              <span class="item-name">goto の正当なユースケース</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C では <code>goto</code> は一般的に非推奨だが、複数の資源を確保した後のエラー脱出パターンとして Linux カーネル等で広く使われる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int process(void) {
+    void *buf1 = malloc(100);
+    if (!buf1) goto err0;
+
+    void *buf2 = malloc(200);
+    if (!buf2) goto err1;
+
+    // ... 処理 ...
+    free(buf2);
+    free(buf1);
+    return 0;
+
+err1: free(buf1);
+err0: return -1;
+}</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /s3 -->
+
+      <!-- ================================================================
+           4. 関数
+      ================================================================ -->
+      <div class="section-card" id="s4" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">04</span>
+          <h2>関数</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="宣言 定義 プロトタイプ ヘッダ 前方宣言">
+            <div class="item-header">
+              <span class="item-name">プロトタイプ宣言</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">使用前に宣言（プロトタイプ）が必要。ヘッダファイルに宣言を書いてソースファイルで定義するのが標準的なスタイル。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// プロトタイプ宣言（引数名は省略可）
+int add(int, int);
+
+// 定義
+int add(int a, int b) {
+    return a + b;
+}
+
+// 引数なしの関数は (void) と明示する
+void greet(void) {
+    puts("Hello");
+}</code></pre>
+            </div>
+            <div class="warn-box">C では引数リストを空 <code>()</code> にすると「引数の個数・型を指定しない」という意味になる（C89 の名残）。「引数なし」を明示するには <code>(void)</code> と書く必要がある。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="値渡し 参照渡し コピー ポインタ渡し 出力パラメータ">
+            <div class="item-header">
+              <span class="item-name">値渡しとポインタ渡し</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C は値渡しのみ。関数内で引数を変更しても呼び出し元に影響しない。呼び出し元の変数を変更するにはポインタを渡す。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// 値渡し：呼び出し元は変化しない
+void double_val(int x) { x *= 2; }
+
+// ポインタ渡し：呼び出し元の変数を変更できる
+void double_ptr(int *x) { *x *= 2; }
+
+int n = 5;
+double_val(n);   // n はまだ 5
+double_ptr(&amp;n);  // n は 10 になる
+
+// 複数の値を返すにもポインタ渡しを使う
+void min_max(int *arr, int len, int *min, int *max);</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="static 関数 inline 外部非公開 リンケージ">
+            <div class="item-header">
+              <span class="item-name">static 関数と inline 関数</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc"><code>static</code> を付けた関数はそのソースファイル内でのみ有効（ファイルスコープ）。他のファイルから参照不可になる。<code>inline</code>（C99）はコンパイラへの展開ヒント。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// このファイル内でのみ使える関数
+static int helper(int x) { return x * 2; }
+
+// インライン展開のヒント（C99）
+static inline int square(int x) { return x * x; }
+
+// 変数に対する static：関数を抜けても値を保持
+void counter(void) {
+    static int count = 0;  // 初回のみ 0 に初期化
+    count++;
+    printf("%d\n", count);
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="可変長引数 varargs stdarg va_list printf">
+            <div class="item-header">
+              <span class="item-name">可変長引数（&lt;stdarg.h&gt;）</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc"><code>printf</code> のような可変引数関数は <code>&lt;stdarg.h&gt;</code> の <code>va_list</code>/<code>va_start</code>/<code>va_arg</code>/<code>va_end</code> で実装する。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;stdarg.h&gt;
+#include &lt;stdio.h&gt;
+
+// count 個の int の合計を返す
+int sum(int count, ...) {
+    va_list ap;
+    va_start(ap, count);  // count の後ろから可変引数が始まる
+    int total = 0;
+    for (int i = 0; i &lt; count; i++) {
+        total += va_arg(ap, int);
+    }
+    va_end(ap);
+    return total;
+}
+
+sum(3, 10, 20, 30); // → 60</code></pre>
+            </div>
+            <div class="warn-box"><code>va_arg</code> で指定する型は実際の引数の型と一致していなければならない。型が合わない場合は未定義動作。<code>va_end</code> を呼ばないと移植性の問題が起きる。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="再帰 スタックオーバーフロー 末尾再帰">
+            <div class="item-header">
+              <span class="item-name">再帰</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C は再帰をサポートするが、呼び出しごとにスタックフレームを消費する。深い再帰はスタックオーバーフローを引き起こす。多くのコンパイラは末尾再帰を最適化しない。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// 階乗（再帰）
+long long factorial(int n) {
+    if (n &lt;= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+// 深い再帰が必要な場合はループに書き直す
+long long factorial_iter(int n) {
+    long long result = 1;
+    for (int i = 2; i &lt;= n; i++) result *= i;
+    return result;
+}</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /s4 -->
+
+      <!-- ================================================================
+           5. 配列と文字列
+      ================================================================ -->
+      <div class="section-card" id="s5" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">05</span>
+          <h2>配列と文字列</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="配列 宣言 初期化 インデックス サイズ 固定長">
+            <div class="item-header">
+              <span class="item-name">配列の宣言と初期化</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">配列サイズはコンパイル時定数で指定（C99 以降は VLA で実行時指定も可）。初期化子が要素数より少ない場合は残りがゼロ埋めされる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int a[5];                    // 未初期化（ゴミ値）
+int b[5] = {1, 2, 3, 4, 5};
+int c[5] = {0};              // 全要素を 0 に初期化
+int d[] = {10, 20, 30};      // サイズ省略（3 と推論）
+
+// 指定初期化子（C99）
+int e[5] = {[0]=1, [4]=5};   // 中間はゼロ
+
+printf("%d\n", b[0]);        // 1
+printf("%zu\n", sizeof(b) / sizeof(b[0]));  // 5</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="配列 境界外アクセス バッファオーバーラン 未定義動作">
+            <div class="item-header">
+              <span class="item-name">境界外アクセス</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C は配列の境界チェックをしない。範囲外アクセスは未定義動作でクラッシュや脆弱性の原因になる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int arr[5] = {0, 1, 2, 3, 4};
+arr[5] = 99;   // 未定義動作！インデックスは 0〜4 のみ有効
+arr[-1] = 0;   // 未定義動作！
+
+// 安全に使うには常に範囲チェック
+int idx = get_index();
+if (idx &gt;= 0 &amp;&amp; idx &lt; 5) {
+    arr[idx] = 99;
+}</code></pre>
+            </div>
+            <div class="warn-box">境界外書き込みはスタックやヒープを破壊し、バッファオーバーフロー攻撃の原因になる。<code>-fsanitize=address</code>（AddressSanitizer）でデバッグ中に検出できる。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="文字列 char 配列 NUL終端 NULL文字 '\0'">
+            <div class="item-header">
+              <span class="item-name">文字列と NUL 終端</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C 文字列は <code>char</code> 配列で、末尾に <code>'\0'</code>（NUL 文字）が置かれる。文字列リテラルは自動で <code>'\0'</code> を付加する。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">char s1[] = "hello";    // {'h','e','l','l','o','\0'} と等価（6要素）
+char s2[6] = "hello";   // 同上
+char s3[5] = "hello";   // '\0' が入らない → 文字列として危険！
+
+const char *p = "hello"; // 文字列リテラルへのポインタ（読み取り専用）
+
+strlen(s1);  // 5（NUL を含まない長さ）
+sizeof(s1);  // 6（NUL を含むバイト数）</code></pre>
+            </div>
+            <div class="warn-box">文字列バッファを確保するときは NUL 終端分の +1 を忘れずに。<code>char buf[5] = "hello"</code> は NUL が入らず、後続の文字列操作が不正メモリを読み続ける（バッファオーバーラン）。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="strcpy strncpy strcat strcmp strlen memcpy 文字列関数">
+            <div class="item-header">
+              <span class="item-name">主要な文字列関数</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc"><code>&lt;string.h&gt;</code> の文字列関数は境界チェックをしないものが多い。<code>n</code> 付きの関数（<code>strncpy</code> 等）を使う際も挙動に注意が必要。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;string.h&gt;
+char dst[20];
+char src[] = "hello";
+
+strcpy(dst, src);            // コピー（dst が小さいと溢れる）
+strncpy(dst, src, sizeof(dst) - 1);  // 長さ制限付き
+dst[sizeof(dst) - 1] = '\0'; // NUL 終端を保証（strncpy はしない場合がある）
+
+strcat(dst, " world");       // 末尾に連結
+strlen(dst);                 // 文字数（NUL 除く）
+strcmp("abc", "abd");        // 負値（"abc" &lt; "abd"）
+strncmp("abc", "abX", 2);    // 0（最初の 2 文字が等しい）</code></pre>
+            </div>
+            <div class="warn-box"><code>strcpy</code>/<code>strcat</code> は宛先バッファが十分か確認しない。<code>strlcpy</code>/<code>strlcat</code>（BSD/macOS 標準、Linux は非標準）または <code>snprintf</code> を代替として使う。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="多次元配列 2次元 行列 メモリレイアウト 行優先">
+            <div class="item-header">
+              <span class="item-name">多次元配列</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C の多次元配列は行優先（row-major）でメモリに連続配置される。関数に渡すときは列数を明示する必要がある。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int mat[3][4];           // 3行4列（12要素が連続配置）
+mat[1][2] = 42;          // 行 1、列 2
+
+// 関数に渡す場合、最初の次元は省略可だが後続は必須
+void print_matrix(int m[][4], int rows);
+
+// C99 VLA（可変長配列）
+int rows = 3, cols = 4;
+int vla[rows][cols];     // スタック上に確保（サイズ大きいと危険）</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /s5 -->
+
+      <!-- ================================================================
+           6. ポインタ
+      ================================================================ -->
+      <div class="section-card" id="s6" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">06</span>
+          <h2>ポインタ</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="ポインタ 宣言 アドレス & 逆参照 * 間接参照">
+            <div class="item-header">
+              <span class="item-name">ポインタの基本</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">ポインタはアドレスを格納する変数。<code>&amp;</code> でアドレスを取得（参照）、<code>*</code> でポインタが指す値を読み書き（逆参照）。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int x = 42;
+int *p = &amp;x;  // p に x のアドレスを格納
+
+printf("%p\n", (void *)p);  // アドレスを表示
+printf("%d\n", *p);         // 42（逆参照）
+
+*p = 100;    // x の値を 100 に変更
+printf("%d\n", x);  // 100
+
+// ポインタ自体のアドレス（ポインタへのポインタ）
+int **pp = &amp;p;</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="NULL ポインタ ダングリング 未初期化 nullptr NULLチェック">
+            <div class="item-header">
+              <span class="item-name">NULL ポインタとダングリングポインタ</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">NULL ポインタは「有効なアドレスを指していない」ことを示す値。ダングリングポインタは解放済みまたはスコープ外の変数を指すポインタで、逆参照すると未定義動作。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int *p = NULL;
+if (p != NULL) { *p = 1; }  // NULL チェック必須
+
+// ダングリングポインタ（関数からローカル変数のアドレスを返す）
+int *bad(void) {
+    int local = 42;
+    return &amp;local;   // 危険！local はスコープを抜けると無効
+}
+
+// free 後もポインタは古いアドレスを保持（ダングリング）
+int *q = malloc(sizeof(int));
+free(q);
+q = NULL;   // free 後は必ず NULL を代入する慣習</code></pre>
+            </div>
+            <div class="warn-box">関数のローカル変数のアドレスを返すのは未定義動作。スタック上の変数は関数リターン後に無効になる。ヒープや static 変数のアドレスは返せる。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="ポインタ演算 加算 減算 配列 インデックス">
+            <div class="item-header">
+              <span class="item-name">ポインタ演算</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">ポインタへの整数加算は「型のサイズ × n バイト」進む。配列の走査に使われる。ポインタ同士の減算で要素間の距離を求められる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int arr[5] = {10, 20, 30, 40, 50};
+int *p = arr;  // arr は &amp;arr[0] に等しい
+
+*(p + 1)      // 20（p から 1 要素分進んだ先）
+p[2]          // 30（*(p+2) と同じ）
+
+// ポインタ走査
+for (int *it = arr; it &lt; arr + 5; it++) {
+    printf("%d ", *it);
+}
+
+// ポインタの差（ptrdiff_t 型）
+int *end = arr + 5;
+ptrdiff_t len = end - arr;  // 5</code></pre>
+            </div>
+            <div class="warn-box">ポインタ演算は同じ配列（または 1 要素分だけ末尾の外側）の範囲内でのみ有効。異なるオブジェクト間のポインタ比較・演算は未定義動作。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="配列名 ポインタ decay 先頭要素 違い">
+            <div class="item-header">
+              <span class="item-name">配列とポインタの関係</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">配列名は多くの文脈でその先頭要素へのポインタに「成り下がる」（decay）。ただし <code>sizeof</code> と <code>&amp;</code> 演算子では成り下がらない。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int arr[5] = {1,2,3,4,5};
+int *p = arr;        // arr → &amp;arr[0] に decay
+
+sizeof(arr)  // 20（配列全体）← decay しない
+sizeof(p)    // 8（ポインタサイズ）
+
+&amp;arr         // int (*)[5]（配列全体へのポインタ）
+&amp;arr[0]      // int *（先頭要素へのポインタ）
+
+// 関数引数では必ず decay する
+void f(int a[5]) { }   // int *a と同じ宣言</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="関数ポインタ コールバック 高階関数 typedef">
+            <div class="item-header">
+              <span class="item-name">関数ポインタ</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">関数のアドレスをポインタとして格納し、コールバックや戦略パターンを実装できる。宣言構文が複雑なため <code>typedef</code> で簡略化するのが一般的。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">int add(int a, int b) { return a + b; }
+int mul(int a, int b) { return a * b; }
+
+// 関数ポインタの宣言：int (*名前)(int, int)
+int (*op)(int, int) = add;
+op(3, 4);   // 7
+
+// typedef で読みやすく
+typedef int (*BinOp)(int, int);
+BinOp ops[] = {add, mul};
+ops[1](3, 4);  // 12
+
+// qsort のコールバック
+#include &lt;stdlib.h&gt;
+int cmp(const void *a, const void *b) {
+    return *(int*)a - *(int*)b;
+}
+int arr[5] = {3,1,4,1,5};
+qsort(arr, 5, sizeof(int), cmp);</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /s6 -->
+
+      <!-- ================================================================
+           7. 構造体・共用体・列挙型
+      ================================================================ -->
+      <div class="section-card" id="s7" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">07</span>
+          <h2>構造体・共用体・列挙型</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="struct 構造体 宣言 初期化 メンバ アクセス . ->">
+            <div class="item-header">
+              <span class="item-name">struct の宣言と typedef</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C の構造体は型名の前に <code>struct</code> キーワードが必要。<code>typedef</code> で別名を付けると使いやすくなる。メンバへのアクセスは <code>.</code>（値）と <code>-&gt;</code>（ポインタ）。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// 宣言と typedef を同時に
+typedef struct {
+    char name[64];
+    int  age;
+    double score;
+} Person;
+
+// 初期化
+Person p1 = {"Alice", 30, 98.5};
+Person p2 = {.name = "Bob", .age = 25};  // 指定初期化子（C99）
+
+// メンバアクセス
+printf("%s\n", p1.name);   // 値へのアクセス
+
+// ポインタ経由
+Person *ptr = &amp;p1;
+printf("%d\n", ptr-&gt;age);  // (*ptr).age と同じ</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="構造体 コピー 代入 浅いコピー シャローコピー ポインタメンバ">
+            <div class="item-header">
+              <span class="item-name">構造体のコピーと浅いコピーの罠</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">構造体の代入はメンバのビットをそのままコピーする（浅いコピー）。ポインタメンバがある場合、コピー先とコピー元が同じアドレスを指す。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">typedef struct {
+    char *name;   // ポインタメンバ
+    int age;
+} Node;
+
+Node a = {.name = malloc(64), .age = 20};
+strcpy(a.name, "Alice");
+
+Node b = a;     // 浅いコピー：b.name は a.name と同じアドレス
+b.age = 25;     // OK（int はコピーされている）
+b.name[0] = 'X';// a.name も "Xlice" に変わってしまう！
+
+free(a.name);
+// free(b.name); ← 二重 free になる！</code></pre>
+            </div>
+            <div class="warn-box">ポインタメンバを持つ構造体を代入すると、2 つの構造体が同じメモリを指す。片方を <code>free</code> すると他方がダングリングポインタになる。深いコピーが必要な場合は専用の関数を作る。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="struct パディング アライメント offsetof サイズ">
+            <div class="item-header">
+              <span class="item-name">構造体のパディングとアライメント</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">コンパイラはメンバのアライメント要求を満たすためにパディングを挿入する。メンバの宣言順によって構造体サイズが変わる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// パディングあり：char 後に 3 バイトのパディング
+struct Padded { char c; int i; };   // sizeof → 8 (多くの環境)
+
+// パディング削減：大きい型を先に
+struct Packed  { int i; char c; };  // sizeof → 8（末尾に 3 バイト）
+
+// メンバ順を整理すると小さくなる場合
+struct Optimal { double d; int i; char c; };  // sizeof → 16
+
+#include &lt;stddef.h&gt;
+offsetof(struct Padded, i);  // i の先頭からのオフセット（通常 4）</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="union 共用体 メモリ共有 型パンニング">
+            <div class="item-header">
+              <span class="item-name">union（共用体）</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">全メンバが同じメモリ領域を共有する。サイズは最大のメンバのサイズ。同時に使えるメンバは 1 つのみ（最後に書いたメンバが有効）。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">typedef union {
+    int   i;
+    float f;
+    char  bytes[4];
+} Variant;
+
+Variant v;
+v.i = 0x3f800000;
+printf("%f\n", v.f);  // IEEE 754 で 1.0 と解釈される
+
+// タグ付き共用体（どのメンバが有効かを struct で管理）
+typedef struct {
+    enum { TYPE_INT, TYPE_FLOAT } tag;
+    union { int i; float f; } val;
+} TaggedValue;</code></pre>
+            </div>
+            <div class="warn-box">書いていないメンバを読み取ること（型パンニング）は厳密には未定義動作だが、多くの実装では動作する。移植性を重視する場合は <code>memcpy</code> 経由で変換する。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="enum 列挙型 定数 スコープ 型チェック">
+            <div class="item-header">
+              <span class="item-name">enum（列挙型）</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">C の <code>enum</code> は名前付き整数定数の集合。スコープは定義されたブロックに限定されず、列挙子はファイルスコープに飛び出す。型チェックも緩い。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">typedef enum {
+    COLOR_RED   = 0,
+    COLOR_GREEN = 1,
+    COLOR_BLUE  = 2
+} Color;
+
+Color c = COLOR_RED;
+
+// 列挙子はグローバルに漏れる（名前衝突に注意）
+// RED だと他の定義と衝突しやすいので COLOR_ プレフィックスを使う慣習
+
+// int との代入が通ってしまう（型チェックが緩い）
+int n = COLOR_GREEN;  // 警告なしでコンパイルされる</code></pre>
+            </div>
+            <div class="warn-box">C の <code>enum</code> は実質 <code>int</code> 定数の別名。異なる <code>enum</code> 型同士の代入もコンパイルが通る。C++ の <code>enum class</code> のような強い型チェックはない。</div>
+          </div>
+
+        </div>
+      </div><!-- /s7 -->
+
+      <!-- ================================================================
+           8. メモリ管理
+      ================================================================ -->
+      <div class="section-card" id="s8" data-level="advanced">
+        <div class="section-head">
+          <span class="section-num">08</span>
+          <h2>メモリ管理</h2>
+          <span class="badge">応用</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="advanced" data-keywords="malloc calloc realloc free ヒープ 動的確保">
+            <div class="item-header">
+              <span class="item-name">malloc / calloc / realloc / free</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">ヒープからメモリを動的に確保する。<code>malloc</code> は初期化しない。<code>calloc</code> はゼロ初期化する。<code>realloc</code> はサイズ変更。必ず <code>free</code> で解放する。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;stdlib.h&gt;
+
+// malloc：未初期化メモリを確保
+int *p = malloc(10 * sizeof(int));
+if (!p) { /* 失敗処理 */ }
+
+// calloc：ゼロ初期化（個数 × サイズ）
+int *q = calloc(10, sizeof(int));
+
+// realloc：サイズ変更（失敗時は NULL、元のポインタは無効化されない）
+int *r = realloc(p, 20 * sizeof(int));
+if (!r) { free(p); /* 元のメモリを解放 */ }
+else    { p = r; }
+
+free(p);
+p = NULL;  // 解放後は NULL を代入</code></pre>
+            </div>
+            <div class="warn-box"><code>malloc</code> 失敗時の戻り値は <code>NULL</code>。確認せずに使うとクラッシュ。<code>realloc</code> が失敗しても元のポインタは有効なので、戻り値を直接元の変数に代入するとメモリリークする。</div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="メモリリーク 二重free ダングリング 検出 valgrind asan">
+            <div class="item-header">
+              <span class="item-name">メモリリークと二重 free</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">確保したメモリを解放しないとメモリリーク、同じアドレスを 2 回 <code>free</code> すると未定義動作（ヒープ破壊）が起きる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// メモリリーク例
+void leak(void) {
+    int *p = malloc(100);
+    return;  // free を忘れた → リーク
+}
+
+// 二重 free 例
+int *p = malloc(4);
+free(p);
+free(p);   // 未定義動作！ヒープ破壊
+
+// 安全パターン：free 後に NULL
+free(p);
+p = NULL;
+free(p);   // NULL の free は安全（何もしない）
+
+// 検出ツール
+// valgrind --leak-check=full ./program
+// gcc -fsanitize=address,leak ./program</code></pre>
+            </div>
+            <div class="warn-box">二重 <code>free</code> はセキュリティ脆弱性（ヒープオーバーフロー攻撃）の原因になる。解放後は必ずポインタを <code>NULL</code> にする。<code>NULL</code> の <code>free</code> は安全（C 標準で何もしないと規定）。</div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="スタック ヒープ 違い 自動変数 ライフタイム">
+            <div class="item-header">
+              <span class="item-name">スタックとヒープの違い</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">スタックは高速・自動管理だがサイズ制限あり。ヒープは大きなデータや生存期間が可変なデータに使う。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// スタック：関数終了時に自動解放、高速
+void f(void) {
+    int arr[1000];       // スタック上（~4KB）
+    char buf[1024*1024]; // 1MB → スタックオーバーフローの危険
+}
+
+// ヒープ：明示的に malloc/free が必要、低速だが大きく確保可能
+void g(void) {
+    char *buf = malloc(1024 * 1024);  // 1MB ヒープに確保
+    // ... 使う ...
+    free(buf);
+}
+
+// static/グローバル：プログラム全期間で有効
+static char persistent[4096];</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="安全パターン free NULL マクロ SAFE_FREE">
+            <div class="item-header">
+              <span class="item-name">安全な free パターン</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">二重 <code>free</code> を防ぐ慣用パターン。マクロを使って <code>free</code> と <code>NULL</code> 代入を一体化するとコードが簡潔になる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// 安全 free マクロ
+#define SAFE_FREE(p) do { free(p); (p) = NULL; } while (0)
+
+int *buf = malloc(64);
+// ... 処理 ...
+SAFE_FREE(buf);   // free して NULL に
+SAFE_FREE(buf);   // 2回目は NULL の free（安全）
+
+// do { } while(0) は複文マクロの標準イディオム
+// if 文のぶら下がりを防ぐ</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /s8 -->
+
+      <!-- ================================================================
+           9. ファイルI/O
+      ================================================================ -->
+      <div class="section-card" id="s9" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">09</span>
+          <h2>ファイルI/O</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="fopen fclose FILE ファイル 開く 閉じる モード">
+            <div class="item-header">
+              <span class="item-name">fopen / fclose</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc"><code>fopen</code> は <code>FILE *</code> を返す。失敗時は <code>NULL</code> を返すので必ずチェックする。<code>fclose</code> を忘れるとファイルが正しく書き込まれない場合がある。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+FILE *fp = fopen("data.txt", "r");  // "r"=読み取り, "w"=書き込み, "a"=追記
+if (!fp) {
+    perror("fopen");   // エラーメッセージを stderr に出力
+    return -1;
+}
+
+// ファイル処理...
+
+if (fclose(fp) != 0) {
+    perror("fclose");
+}
+
+// モード一覧
+// "r"  読み取り専用      "rb" バイナリ読み取り
+// "w"  書き込み（上書き） "wb" バイナリ書き込み
+// "a"  追記              "r+" 読み書き両用</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="fgets fputs fprintf fscanf テキスト 行読み込み">
+            <div class="item-header">
+              <span class="item-name">テキスト読み書き</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">行単位の読み込みには <code>fgets</code>（<code>gets</code> は使用禁止）。<code>fprintf</code> は <code>printf</code> のファイル版。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">char line[256];
+
+// 行読み込み（改行 '\n' も含む）
+while (fgets(line, sizeof(line), fp) != NULL) {
+    printf("%s", line);
+}
+
+// テキスト書き込み
+fprintf(fp, "Name: %s, Age: %d\n", "Alice", 30);
+fputs("Hello\n", fp);  // 文字列書き込み
+
+// 書式読み込み（scanf のファイル版）
+int n;
+fscanf(fp, "%d", &amp;n);</code></pre>
+            </div>
+            <div class="warn-box"><code>gets()</code> は使用禁止（C11 で削除）。バッファサイズを指定できないため必ずオーバーフローの危険がある。常に <code>fgets(buf, sizeof(buf), fp)</code> を使う。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="fread fwrite バイナリ 読み込み 書き込み">
+            <div class="item-header">
+              <span class="item-name">バイナリ読み書き（fread / fwrite）</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">構造体やバイト列をそのままファイルに読み書きする。<code>fread</code>/<code>fwrite</code> は読み書きした「要素数」を返す。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">typedef struct { int x, y; } Point;
+Point pts[3] = {{1,2},{3,4},{5,6}};
+
+// バイナリ書き込み
+FILE *fp = fopen("pts.bin", "wb");
+size_t written = fwrite(pts, sizeof(Point), 3, fp);  // 3要素書き込み
+fclose(fp);
+
+// バイナリ読み込み
+Point in_pts[3];
+fp = fopen("pts.bin", "rb");
+size_t read = fread(in_pts, sizeof(Point), 3, fp);
+fclose(fp);</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="fseek ftell rewind シーク ランダムアクセス">
+            <div class="item-header">
+              <span class="item-name">fseek / ftell / rewind</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">ファイル位置指示子（カーソル）の操作。<code>SEEK_SET</code>（先頭から）、<code>SEEK_CUR</code>（現在位置から）、<code>SEEK_END</code>（末尾から）。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">FILE *fp = fopen("data.bin", "rb");
+
+// ファイルサイズを取得する常套句
+fseek(fp, 0, SEEK_END);   // 末尾へ移動
+long size = ftell(fp);     // 現在位置 = ファイルサイズ
+rewind(fp);                // 先頭に戻す（= fseek(fp, 0, SEEK_SET)）
+
+// 特定位置へジャンプ
+fseek(fp, 100, SEEK_SET);  // 先頭から 100 バイト目
+fseek(fp, -4, SEEK_CUR);   // 現在位置から 4 バイト戻る</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /s9 -->
+
+      <!-- ================================================================
+           10. プリプロセッサとマクロ
+      ================================================================ -->
+      <div class="section-card" id="s10" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">10</span>
+          <h2>プリプロセッサとマクロ</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="#define #undef マクロ 定数 関数マクロ">
+            <div class="item-header">
+              <span class="item-name">#define と関数マクロ</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">マクロはテキスト置換。引数付きマクロは型チェックなしで使え、インライン展開されるが副作用に注意。全体を括弧で囲む習慣が重要。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#define PI 3.14159265358979
+#define SQ(x)    ((x) * (x))   // 全体と引数を括弧で囲む
+#define MAX(a,b) ((a) &gt; (b) ? (a) : (b))
+
+int r = 5;
+double area = PI * SQ(r);    // OK
+
+int i = 3;
+int m = MAX(i++, 2);  // (i++ > 2 ? i++ : 2) → i が 2 回インクリメントされる！
+
+#undef PI   // マクロの取り消し</code></pre>
+            </div>
+            <div class="warn-box">関数マクロの引数に副作用のある式（<code>i++</code> 等）を渡すと複数回評価される。C99 以降の <code>static inline</code> 関数で代替するのが安全。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="#ifdef #ifndef #if #else #endif 条件コンパイル">
+            <div class="item-header">
+              <span class="item-name">条件コンパイル</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">プラットフォーム差異の吸収やデバッグコードの切り替えに使う。<code>#ifdef</code> は「マクロが定義されているか」、<code>#if</code> は「値の条件」を評価する。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#ifdef _WIN32
+    #define PATH_SEP '\\'
+#else
+    #define PATH_SEP '/'
+#endif
+
+#if defined(__STDC_VERSION__) &amp;&amp; __STDC_VERSION__ &gt;= 199901L
+    // C99 以降のコード
+#endif
+
+// デバッグ出力
+#ifdef DEBUG
+    #define LOG(fmt, ...) fprintf(stderr, fmt, ##__VA_ARGS__)
+#else
+    #define LOG(fmt, ...) /* 何もしない */
+#endif</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="インクルードガード #pragma once 多重インクルード ヘッダ">
+            <div class="item-header">
+              <span class="item-name">インクルードガード / #pragma once</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">ヘッダファイルが複数回インクルードされると型・変数の二重定義エラーが起きる。インクルードガードまたは <code>#pragma once</code> で防ぐ。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// mylib.h — 古典的インクルードガード（C 標準）
+#ifndef MYLIB_H
+#define MYLIB_H
+
+// ヘッダ内容
+
+#endif /* MYLIB_H */
+
+// または #pragma once（非標準だが主要コンパイラで使用可）
+#pragma once
+
+// ヘッダ内容</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="# ## 文字列化 トークン結合 マクロ 高度">
+            <div class="item-header">
+              <span class="item-name">文字列化（#）とトークン結合（##）</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc"><code>#</code> は引数を文字列リテラルに変換、<code>##</code> は 2 つのトークンを結合する。デバッグマクロや汎用コード生成に使われる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// # 文字列化：変数名と値を一緒に表示
+#define SHOW(x) printf(#x " = %d\n", (x))
+int answer = 42;
+SHOW(answer);  // "answer = 42" と出力
+
+// ## トークン結合：識別子を組み立て
+#define MAKE_VAR(name) int var_##name
+MAKE_VAR(x);   // int var_x; に展開される</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /s10 -->
+
+      <!-- ================================================================
+           11. 標準ライブラリ
+      ================================================================ -->
+      <div class="section-card" id="s11" data-level="basic">
+        <div class="section-head">
+          <span class="section-num">11</span>
+          <h2>標準ライブラリ</h2>
+          <span class="badge">基礎</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="basic" data-keywords="printf scanf フォーマット指定子 %d %s %f %p 書式">
+            <div class="item-header">
+              <span class="item-name">printf / scanf のフォーマット指定子</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">フォーマット指定子と引数の型が一致しないと未定義動作。<code>scanf</code> でのバッファサイズ制限も重要。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// printf フォーマット指定子
+printf("%d\n",   42);          // int
+printf("%u\n",   42u);         // unsigned int
+printf("%ld\n",  42L);         // long
+printf("%lld\n", 42LL);        // long long
+printf("%f\n",   3.14);        // double（float も double に昇格）
+printf("%s\n",   "hello");     // 文字列
+printf("%p\n",   (void*)ptr);  // ポインタ（キャストが必要）
+printf("%zu\n",  sizeof(int)); // size_t
+
+// scanf：必ずアドレスを渡す
+int n;
+char buf[64];
+scanf("%d", &amp;n);
+scanf("%63s", buf);  // サイズ制限 63（NUL 分を引く）</code></pre>
+            </div>
+            <div class="warn-box">型不一致は未定義動作。<code>int</code> を <code>%ld</code> で出力するなどすると結果が不定。<code>-Wformat</code>（<code>-Wall</code> に含まれる）でコンパイル時に検出できる。<code>scanf("%s", buf)</code> はサイズ制限がないためバッファオーバーフローの原因になる。</div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="stdlib.h atoi strtol strtod exit qsort bsearch">
+            <div class="item-header">
+              <span class="item-name">&lt;stdlib.h&gt; の主要関数</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">文字列→数値変換、プロセス終了、ソート・探索などを提供。<code>atoi</code> はエラー検出できないので <code>strtol</code> を推奨。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;stdlib.h&gt;
+
+// 文字列 → 数値（エラー検出できない古い関数）
+int n = atoi("123");
+
+// エラー検出可能な変換（推奨）
+char *end;
+long l = strtol("123abc", &amp;end, 10);  // end は変換できなかった先頭を指す
+if (*end != '\0') { /* 変換失敗 */ }
+
+// プロセス終了
+exit(0);         // 正常終了（atexit 登録関数を実行）
+abort();         // 異常終了（SIGABRT を発生）
+
+// ソート・二分探索
+int arr[5] = {3,1,4,1,5};
+qsort(arr, 5, sizeof(int), compare_func);
+int *found = bsearch(&amp;key, arr, 5, sizeof(int), compare_func);</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="math.h 数学 sqrt pow sin cos log ceil floor">
+            <div class="item-header">
+              <span class="item-name">&lt;math.h&gt;</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">数学関数は <code>&lt;math.h&gt;</code> をインクルードしリンク時に <code>-lm</code> フラグが必要（Linux/GCC）。引数と戻り値は <code>double</code>。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;math.h&gt;
+// コンパイル: gcc prog.c -lm
+
+sqrt(9.0)        // 3.0
+pow(2.0, 10.0)   // 1024.0
+fabs(-3.5)       // 3.5（絶対値）
+ceil(1.2)        // 2.0（切り上げ）
+floor(1.8)       // 1.0（切り捨て）
+round(1.5)       // 2.0（四捨五入）
+log(M_E)         // 1.0（自然対数）
+log2(8.0)        // 3.0
+sin(M_PI / 2.0)  // 1.0（引数はラジアン）</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="basic" data-keywords="time.h time clock 時間計測 乱数 rand srand">
+            <div class="item-header">
+              <span class="item-name">&lt;time.h&gt; と乱数</span>
+              <span class="level-pill pill-basic">基礎</span>
+            </div>
+            <p class="item-desc">時刻取得は <code>time()</code>、経過時間の計測は <code>clock()</code>。乱数は <code>rand()</code>（範囲は 0〜<code>RAND_MAX</code>）。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;time.h&gt;
+#include &lt;stdlib.h&gt;
+
+// 現在時刻
+time_t now = time(NULL);
+printf("%s", ctime(&amp;now));  // 人間可読な文字列
+
+// 経過時間計測
+clock_t start = clock();
+// ... 処理 ...
+double sec = (double)(clock() - start) / CLOCKS_PER_SEC;
+
+// 乱数（シードを設定して使う）
+srand((unsigned)time(NULL));
+int r = rand() % 100;       // 0〜99 の乱数</code></pre>
+            </div>
+            <div class="warn-box"><code>rand()</code> は品質が低く暗号用途には使えない。統計・シミュレーションには Mersenne Twister 等の外部ライブラリ、セキュリティ用途には OS 提供の <code>/dev/urandom</code> や <code>arc4random()</code> を使う。</div>
+          </div>
+
+        </div>
+      </div><!-- /s11 -->
+
+      <!-- ================================================================
+           12. コンパイルとリンク
+      ================================================================ -->
+      <div class="section-card" id="s12" data-level="advanced">
+        <div class="section-head">
+          <span class="section-num">12</span>
+          <h2>コンパイルとリンク</h2>
+          <span class="badge">応用</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="advanced" data-keywords="コンパイル リンク 前処理 アセンブル 流れ gcc">
+            <div class="item-header">
+              <span class="item-name">コンパイルの 4 段階</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">C のビルドは「前処理 → コンパイル → アセンブル → リンク」の 4 段階。各段階を個別に実行することもできる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// 1. 前処理：#include / #define を展開（.i ファイル）
+gcc -E main.c -o main.i
+
+// 2. コンパイル：C → アセンブリ（.s ファイル）
+gcc -S main.i -o main.s
+
+// 3. アセンブル：アセンブリ → オブジェクト（.o ファイル）
+gcc -c main.c -o main.o
+
+// 4. リンク：複数の .o + ライブラリ → 実行可能ファイル
+gcc main.o util.o -o program -lm
+
+// 一括ビルド（最終的にこれで OK）
+gcc main.c util.c -o program -lm</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="gcc オプション -Wall -O2 -g -std 最適化 デバッグ">
+            <div class="item-header">
+              <span class="item-name">GCC/Clang の主要オプション</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">開発時は <code>-Wall -Wextra -g</code>、リリース時は <code>-O2</code> または <code>-O3</code> を使う。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// 開発時の推奨設定
+gcc -Wall -Wextra -g -std=c17 main.c -o program
+
+// -Wall    : 一般的な警告を有効化
+// -Wextra  : 追加の警告
+// -g       : デバッグシンボル（GDB 等で使用）
+// -std=c17 : C17 準拠モード
+// -O0      : 最適化なし（デフォルト）
+// -O2      : 一般的な最適化
+// -O3      : 積極的最適化
+// -Os      : コードサイズ最小化（組み込み向け）
+
+// サニタイザー（デバッグに有効）
+gcc -fsanitize=address,undefined main.c -o program</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="static extern リンケージ 内部 外部 グローバル">
+            <div class="item-header">
+              <span class="item-name">static / extern リンケージ</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc"><code>static</code>（ファイルスコープで使用）は内部リンケージ。<code>extern</code> は他のファイルで定義された変数・関数の宣言。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// config.c
+int g_count = 0;           // 外部リンケージ（他ファイルから参照可）
+static int s_private = 1;  // 内部リンケージ（このファイルのみ）
+
+// config.h
+extern int g_count;   // 他ファイルへの宣言（定義は config.c）
+
+// main.c
+#include "config.h"
+g_count++;  // OK、config.c の変数を参照</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="Makefile make ビルド 依存関係 ルール">
+            <div class="item-header">
+              <span class="item-name">Makefile の基本</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc"><code>make</code> は依存関係を解析して変更されたファイルのみ再コンパイルする。<code>Makefile</code> のレシピ行は必ずタブ文字でインデントする。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// Makefile
+CC      = gcc
+CFLAGS  = -Wall -Wextra -g -std=c17
+LDFLAGS = -lm
+
+TARGET  = program
+SRCS    = main.c util.c
+OBJS    = $(SRCS:.c=.o)
+
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $&lt; -o $@
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+.PHONY: clean</code></pre>
+            </div>
+            <div class="warn-box">Makefile のレシピ行はスペースではなく「タブ文字」でインデントする必要がある。エディタがタブをスペースに変換する設定の場合は注意。</div>
+          </div>
+
+        </div>
+      </div><!-- /s12 -->
+
+      <!-- ================================================================
+           13. 未定義動作と移植性
+      ================================================================ -->
+      <div class="section-card" id="s13" data-level="advanced">
+        <div class="section-head">
+          <span class="section-num">13</span>
+          <h2>未定義動作と移植性</h2>
+          <span class="badge">応用</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="advanced" data-keywords="未定義動作 UB undefined behavior 危険 最適化">
+            <div class="item-header">
+              <span class="item-name">未定義動作（UB）とは</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">C 標準が「動作を規定しない」と明示した操作。コンパイラは UB が起きないと仮定して最適化するため、期待と真逆の動作や無音のデータ破壊が起きる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// よくある UB パターン
+int x = INT_MAX;
+x + 1;                 // 符号付き整数オーバーフロー
+int arr[3];
+arr[3] = 0;            // 境界外アクセス
+int *p = NULL;
+*p = 1;                // NULL 逆参照
+char *s = "hello";
+s[0] = 'H';            // 文字列リテラルへの書き込み
+int n;
+printf("%d", n);       // 未初期化変数の読み取り</code></pre>
+            </div>
+            <div class="warn-box">UB は「たまたま動く」ことがある。デバッグビルドでは問題なく、リリースビルド（最適化有効）で突然クラッシュするケースが多い。常に <code>-fsanitize=address,undefined</code> でテストする。</div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="エンディアン バイトオーダー big-endian little-endian 移植性">
+            <div class="item-header">
+              <span class="item-name">エンディアンと移植性</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">x86/ARM はリトルエンディアン（下位バイトが低アドレス）、ネットワークバイトオーダーはビッグエンディアン。バイナリファイルやネットワーク通信で問題になる。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;stdint.h&gt;
+
+// エンディアン検出
+int is_little_endian(void) {
+    uint16_t n = 1;
+    return *(uint8_t *)&amp;n == 1;
+}
+
+// ネットワークバイトオーダー変換（&lt;arpa/inet.h&gt; / &lt;winsock2.h&gt;）
+// htonl: host → network (32bit)
+// ntohl: network → host (32bit)
+#include &lt;arpa/inet.h&gt;
+uint32_t net = htonl(0x12345678);
+
+// 移植性のある整数読み書き（バイト単位で処理）
+uint32_t read_le32(const uint8_t *p) {
+    return p[0] | (p[1] &lt;&lt; 8) | (p[2] &lt;&lt; 16) | (p[3] &lt;&lt; 24);
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="アライメント align パディング __attribute__ packed">
+            <div class="item-header">
+              <span class="item-name">アライメントとパッキング</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">CPU はデータのアライメント要求を持つ。ミスアラインドアクセスはバスエラー（一部の ARM 等）や性能低下を招く。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">#include &lt;stddef.h&gt;
+
+// C11 のアライメント指定
+#include &lt;stdalign.h&gt;
+alignas(16) float vec[4];  // 16 バイト境界にアラインされた配列
+
+// GCC 拡張：構造体のパディングを強制的に除去（バイナリ互換性のため）
+struct __attribute__((packed)) NetworkHeader {
+    uint8_t  version;
+    uint16_t length;   // パディングなし（アライメント違反の可能性）
+    uint32_t checksum;
+};
+
+// アライメント確認
+_Alignof(double);  // 通常 8（C11）</code></pre>
+            </div>
+            <div class="warn-box"><code>__attribute__((packed))</code> はアライメント違反を引き起こし、一部アーキテクチャではクラッシュや性能低下を招く。ネットワークプロトコルのパース等、必要最小限の場面のみで使う。</div>
+          </div>
+
+        </div>
+      </div><!-- /s13 -->
+
+      <!-- ================================================================
+           14. モダンC（C99/C11/C17）
+      ================================================================ -->
+      <div class="section-card" id="s14" data-level="advanced">
+        <div class="section-head">
+          <span class="section-num">14</span>
+          <h2>モダンC（C99/C11/C17）</h2>
+          <span class="badge">応用</span>
+        </div>
+        <div class="items-list">
+
+          <div class="item" data-level="advanced" data-keywords="C99 変数宣言 for文 bool stdbool VLA 可変長配列 複合リテラル">
+            <div class="item-header">
+              <span class="item-name">C99 の主な追加</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">C99 は C の大型アップデート。<code>bool</code> 型・<code>for</code> 文内変数宣言・VLA・指定初期化子・<code>//</code> コメント・複合リテラルなどが追加された。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// for 文内の変数宣言
+for (int i = 0; i &lt; 10; i++) { }
+
+// bool 型（&lt;stdbool.h&gt;）
+#include &lt;stdbool.h&gt;
+bool flag = true;
+
+// 可変長配列 VLA（スタック上で実行時サイズの配列）
+int n = 10;
+int vla[n];    // C99 以降。C11 でオプション化（VLA が不要な場合も）
+
+// 指定初期化子
+int arr[5] = {[2]=20, [4]=40};
+
+// 複合リテラル（その場で構造体や配列を生成）
+int *p = (int[]){1, 2, 3, 4};
+typedef struct { int x, y; } Point;
+Point pt = (Point){.x=3, .y=4};</code></pre>
+            </div>
+            <div class="warn-box">VLA はスタック上に確保されるため、サイズが大きいとスタックオーバーフローを引き起こす。C11 でオプション機能になり、<code>__STDC_NO_VLA__</code> が定義された処理系では使えない。組み込みや MSVC では使えない場合が多い。</div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="C11 _Generic _Static_assert _Atomic 型選択 静的アサート">
+            <div class="item-header">
+              <span class="item-name">C11 の主な追加</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">C11 はアトミック操作・ジェネリック選択・静的アサート・マルチスレッドが追加された。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// _Generic：型に応じて式を選択（型安全な汎用関数マクロ）
+#define abs_val(x) _Generic((x), \
+    int:    abs(x),              \
+    long:   labs(x),             \
+    double: fabs(x),             \
+    default: abs(x))
+
+// _Static_assert：コンパイル時アサート
+_Static_assert(sizeof(int) == 4, "int must be 4 bytes");
+
+// _Atomic：アトミック操作（&lt;stdatomic.h&gt;）
+#include &lt;stdatomic.h&gt;
+atomic_int counter = 0;
+atomic_fetch_add(&amp;counter, 1);  // スレッドセーフなインクリメント
+
+// noreturn 属性（&lt;stdnoreturn.h&gt;）
+#include &lt;stdnoreturn.h&gt;
+_Noreturn void fatal(const char *msg) {
+    fputs(msg, stderr);
+    exit(1);
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="C23 typeof nullptr #embed auto 新機能">
+            <div class="item-header">
+              <span class="item-name">C23 の新機能（最新標準）</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">C23（ISO/IEC 9899:2024）はモダン化が進んだ最新標準。GCC 13+/Clang 16+ で部分的にサポートされている。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// typeof：型を取り出す（GCC 拡張が標準化）
+int x = 5;
+typeof(x) y = 10;  // int y = 10;
+
+// nullptr：NULL ポインタ定数（型安全）
+int *p = nullptr;  // NULL より型安全
+
+// auto：型推論（初期化式から型を推論）
+auto n = 42;       // int n = 42;
+
+// #embed：バイナリファイルのインライン埋め込み
+const unsigned char icon[] = {
+    #embed "icon.png"
+};
+
+// 属性構文の統一（[[nodiscard]] 等が C でも使える）
+[[nodiscard]] int compute(void);</code></pre>
+            </div>
+          </div>
+
+          <div class="item" data-level="advanced" data-keywords="モダン スタイル 推奨 ベストプラクティス 安全">
+            <div class="item-header">
+              <span class="item-name">モダン C のベストプラクティス</span>
+              <span class="level-pill pill-advanced">応用</span>
+            </div>
+            <p class="item-desc">現代の C 開発での推奨スタイルとツール活用の指針。</p>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">C</span><button class="copy-btn">コピー</button></div>
+              <pre><code class="language-c">// 1. 固定幅型を積極的に使う
+#include &lt;stdint.h&gt;
+uint32_t flags;  // int より意図が明確
+
+// 2. const を積極的に付ける
+const char *process(const char *input, size_t len);
+
+// 3. サイズは size_t（符号なし）で扱う
+size_t count = sizeof(arr) / sizeof(arr[0]);
+
+// 4. 戻り値は必ず確認する
+if (fclose(fp) != 0) { perror("fclose"); }
+
+// 5. コンパイル時チェックの活用
+_Static_assert(sizeof(off_t) &gt;= 8, "Large file support required");
+
+// 6. ツール活用
+// clang-format でコード整形
+// clang-tidy で静的解析
+// valgrind / ASan でメモリエラー検出</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /s14 -->
+
+    </main>
+  </div>
+</div><!-- /layout -->
+
+<div class="floating-btns">
+  <a class="float-btn" id="home-btn" href="../../index.html" title="ホームへ">🏠</a>
+  <a class="float-btn" id="back-to-top" href="#" title="一番上へ">↑</a>
+</div>
+<button class="mobile-nav-toggle" id="nav-toggle">☰</button>
+
+<script>
+  hljs.highlightAll();
+
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const code = btn.closest(".code-wrap").querySelector("code").innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = "✓ コピー済";
+        btn.classList.add("copied");
+        setTimeout(() => { btn.textContent = "コピー"; btn.classList.remove("copied"); }, 1800);
+      });
+    });
+  });
+
+  const tabs = document.querySelectorAll(".level-tab");
+  tabs.forEach(tab => tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("is-active"));
+    tab.classList.add("is-active");
+    filterItems();
+  }));
+
+  document.getElementById("search-input").addEventListener("input", filterItems);
+
+  function filterItems() {
+    const level = document.querySelector(".level-tab.is-active").dataset.level;
+    const query = document.getElementById("search-input").value.trim().toLowerCase();
+    let visible = 0;
+    document.querySelectorAll(".section-card").forEach(card => {
+      let cardVisible = false;
+      card.querySelectorAll(".item").forEach(item => {
+        const levelOk = level === "all" || item.dataset.level === level;
+        const text    = item.innerText.toLowerCase();
+        const keys    = (item.dataset.keywords || "").toLowerCase();
+        const queryOk = !query || text.includes(query) || keys.includes(query);
+        const show    = levelOk && queryOk;
+        item.classList.toggle("hidden", !show);
+        if (show) { cardVisible = true; visible++; }
+      });
+      card.classList.toggle("hidden", !cardVisible);
+    });
+    document.getElementById("no-results").style.display = visible === 0 ? "block" : "none";
+  }
+
+  const navLinks = document.querySelectorAll(".nav-link[data-section]");
+  const sections = [...document.querySelectorAll(".section-card[id]")];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove("active"));
+        const a = document.querySelector(`.nav-link[data-section="${e.target.id}"]`);
+        if (a) a.classList.add("active");
+      }
+    });
+  }, { rootMargin: "-25% 0px -65% 0px" });
+  sections.forEach(s => observer.observe(s));
+
+  const toggle  = document.getElementById("nav-toggle");
+  const sidebar = document.getElementById("sidebar");
+  toggle.addEventListener("click", () => sidebar.classList.toggle("is-open"));
+  document.addEventListener("click", e => {
+    if (!sidebar.contains(e.target) && e.target !== toggle) sidebar.classList.remove("is-open");
+  });
+  navLinks.forEach(l => l.addEventListener("click", () => setTimeout(() => sidebar.classList.remove("is-open"), 180)));
+</script>
+</body>
+</html>
