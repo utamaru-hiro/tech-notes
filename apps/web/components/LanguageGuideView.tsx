@@ -143,7 +143,15 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
   };
 
   return (
-    <div className="layout">
+    <div
+      className="layout"
+      style={
+        {
+          '--accent': guide.accent,
+          '--accent2': guide.accent2,
+        } as React.CSSProperties
+      }
+    >
       {/* ===== Sidebar ===== */}
       <nav className={`sidebar${sidebarOpen ? ' is-open' : ''}`} id="sidebar">
         <div className="sidebar-logo">
