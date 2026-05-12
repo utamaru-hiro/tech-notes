@@ -197,7 +197,7 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
           </div>
         </header>
 
-        <div className="toolbar">
+        <div className="toolbar" id="toolbar">
           <div className="level-tabs" role="tablist">
             {(['all', 'basic', 'advanced'] as const).map((lv) => (
               <button
