@@ -99,8 +99,8 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
     const target = allItems.find((el) => Number(el.dataset.itemIdx) === bmIdx);
     if (!target) return;
     const toolbar = document.getElementById('toolbar');
-    const offset = (toolbar ? toolbar.getBoundingClientRect().height : 0) + 16;
-    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    const toolbarBottom = toolbar ? toolbar.getBoundingClientRect().bottom : 0;
+    const top = target.getBoundingClientRect().top + window.scrollY - toolbarBottom - 8;
     window.scrollTo({ top, behavior: 'smooth' });
   };
 
