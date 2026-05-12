@@ -14,7 +14,30 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
   const [query, setQuery] = useState('');
   const [activeSection, setActiveSection] = useState(guide.sections[0]?.id ?? '');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [bmIdx, setBmIdx] = useState<number>(-1);
+  const [bmModalOpen, setBmModalOpen] = useState(false);
+  const bmIdxRef = useRef<number>(-1);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const BM_KEY = `bm_${guide.langSlug}`;
+
+  // ブックマーク: localStorage から初期値読み込み
+  useEffect(() => {
+    const stored = localStorage.getItem(BM_KEY);
+    const idx = parseInt(stored ?? '-1', 10);
+    setBmIdx(idx);
+    bmIdxRef.current = idx;
+  }, [BM_KEY]);
+
+  // ブックマーク: 変更を localStorage に保存
+  useEffect(() => {
+    bmIdxRef.current = bmIdx;
+    if (bmIdx === -1) {
+      localStorage.removeItem(BM_KEY);
+    } else {
+      localStorage.setItem(BM_KEY, String(bmIdx));
+    }
+  }, [bmIdx, BM_KEY]);
 
   // highlight.js
   useEffect(() => {
@@ -36,6 +59,51 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
     return () => observer.disconnect();
   }, []);
 
+  // スクロールで自動ブックマーク追跡
+  useEffect(() => {
+    const handler = () => {
+      const current = bmIdxRef.current;
+      if (current === -2) {
+        if (window.scrollY < 200) {
+          setBmIdx(-1);
+        }
+        return;
+      }
+      const midY = window.innerHeight * 0.5;
+      const allItems = Array.from(
+        document.querySelectorAll<HTMLElement>('.item[data-item-idx]')
+      );
+      let lastRead = -1;
+      for (const el of allItems) {
+        if (el.classList.contains('hidden')) continue;
+        if (el.getBoundingClientRect().bottom < midY) {
+          lastRead = Number(el.dataset.itemIdx);
+        }
+      }
+      if (lastRead < 0) return;
+      const next = lastRead + 1;
+      if (next >= allItems.length) return;
+      if (next > current) {
+        setBmIdx(next);
+      }
+    };
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  const jumpToBookmark = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const allItems = Array.from(
+      document.querySelectorAll<HTMLElement>('.item[data-item-idx]')
+    );
+    const target = allItems.find((el) => Number(el.dataset.itemIdx) === bmIdx);
+    if (!target) return;
+    const toolbar = document.getElementById('toolbar');
+    const offset = (toolbar ? toolbar.getBoundingClientRect().height : 0) + 16;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
   const filterVisible = useCallback((sec: Section, item: Item): boolean => {
     if (activeLevel !== 'all' && item.level !== activeLevel) return false;
     if (query) {
@@ -53,6 +121,16 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
     sec.items.some((item) => filterVisible(sec, item));
 
   const noResults = guide.sections.every((sec) => !isSectionVisible(sec));
+
+  // 全 item のフラットインデックスを事前計算
+  const flatIndexMap = new Map<string, number>();
+  let flatCounter = 0;
+  for (const sec of guide.sections) {
+    for (const item of sec.items) {
+      flatIndexMap.set(item.id, flatCounter++);
+    }
+  }
+  const totalItems = flatCounter;
 
   const copyCode = async (code: string, btn: HTMLButtonElement) => {
     await navigator.clipboard.writeText(code);
@@ -171,13 +249,27 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
                 <div className="items-list">
                   {sec.items.map((item) => {
                     const itemVisible = filterVisible(sec, item);
+                    const flatIdx = flatIndexMap.get(item.id) ?? 0;
+                    const isBookmarked = flatIdx === bmIdx;
                     return (
                       <div
                         key={item.id}
-                        className={`item${itemVisible ? '' : ' hidden'}`}
+                        className={`item${itemVisible ? '' : ' hidden'}${isBookmarked ? ' is-bookmarked' : ''}`}
                         data-level={item.level}
                         data-keywords={item.keywords}
+                        data-item-idx={flatIdx}
                       >
+                        {isBookmarked && (
+                          <div className="bm-line">
+                            <span className="bm-line-icon">🔖</span>
+                            <span className="bm-line-dash" />
+                            <button
+                              className="bm-line-del"
+                              title="ブックマークを削除"
+                              onClick={() => setBmModalOpen(true)}
+                            >✕</button>
+                          </div>
+                        )}
                         <div className="item-header">
                           <span className="item-name">{item.name}</span>
                           <span className={`level-pill pill-${item.level}`}>
@@ -241,8 +333,27 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
       {/* ===== Floating buttons ===== */}
       <div className="floating-btns">
         <a className="float-btn" href={homeHref} title="ホームへ">🏠</a>
+        {bmIdx >= 0 && bmIdx < totalItems && (
+          <a className="float-btn" href="#" title="ブックマーク位置に移動" onClick={jumpToBookmark}>🔖</a>
+        )}
         <a className="float-btn" href="#" title="一番上へ">↑</a>
       </div>
+
+      {/* ===== ブックマーク削除モーダル ===== */}
+      {bmModalOpen && (
+        <div
+          className="bm-modal-overlay"
+          onClick={(e) => { if (e.target === e.currentTarget) setBmModalOpen(false); }}
+        >
+          <div className="bm-modal">
+            <p>ブックマークを削除しますか？</p>
+            <div className="bm-modal-btns">
+              <button className="bm-modal-cancel" onClick={() => setBmModalOpen(false)}>キャンセル</button>
+              <button className="bm-modal-ok" onClick={() => { setBmIdx(-2); setBmModalOpen(false); }}>削除</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ===== Mobile nav toggle ===== */}
       <button
