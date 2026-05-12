@@ -186,7 +186,7 @@ input[type="search"]:focus { outline: 2px solid rgba(74,111,165,0.4); outline-of
   .code-header { padding: 7px 12px 6px; }
   .code-wrap pre { padding: 11px 13px; font-size: 0.78rem; line-height: 1.65; }
   .output-box { font-size: 0.78rem; padding: 9px 12px; }
-  .floating-btns { bottom: 80px; }
+  .floating-btns { bottom: 28px; }
 }
 @media (max-width: 390px) {
   .level-tabs { width: 100%; }
