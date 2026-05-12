@@ -1,2 +1,6 @@
 ref
 tmp
+node_modules
+.next/
+out/
+

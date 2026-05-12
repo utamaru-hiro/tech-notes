@@ -1,0 +1,11 @@
+{
+  "name": "@tech-notes/content",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./types.ts",
+  "types": "./types.ts",
+  "exports": {
+    ".": "./types.ts",
+    "./language/*": "./language/*/data.ts"
+  }
+}
