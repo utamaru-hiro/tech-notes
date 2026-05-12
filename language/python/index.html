@@ -349,6 +349,22 @@
       color: var(--text); transition: all 0.15s;
     }
     .float-btn:hover { background: rgba(48,105,152,0.1); color: var(--accent); }
+    .item.is-bookmarked { border-left: none; padding-left: 0; position: relative; }
+    .item.is-bookmarked::before { display: none; }
+    .bm-line { display: none; align-items: center; gap: 0; margin: 4px 0 8px; }
+    .bm-line-icon { font-size: 1.25rem; flex-shrink: 0; line-height: 1; color: var(--accent); margin-right: 4px; }
+    .bm-line-dash { flex: 1; border-top: 2px dashed var(--accent); opacity: 0.45; }
+    .bm-line-del { flex-shrink: 0; margin-left: 6px; width: 18px; height: 18px; border-radius: 50%; background: #e04040; border: none; cursor: pointer; color: #fff; font-size: 0.65rem; font-weight: 900; display: flex; align-items: center; justify-content: center; line-height: 1; padding: 0; transition: background 0.15s; }
+    .bm-line-del:hover { background: #b02020; }
+    .item.is-bookmarked .bm-line { display: flex; }
+    .bm-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.38); z-index: 500; align-items: center; justify-content: center; }
+    .bm-modal-overlay.is-open { display: flex; }
+    .bm-modal { background: var(--panel); border-radius: 18px; padding: 28px 32px 24px; max-width: 320px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,0.22); display: flex; flex-direction: column; gap: 18px; text-align: center; }
+    .bm-modal p { margin: 0; font-size: 0.95rem; line-height: 1.7; color: var(--text); }
+    .bm-modal-btns { display: flex; gap: 10px; justify-content: center; }
+    .bm-modal-cancel { padding: 9px 22px; border-radius: 10px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-size: 0.9rem; color: var(--muted); }
+    .bm-modal-ok { padding: 9px 22px; border-radius: 10px; border: none; background: #e04040; color: #fff; cursor: pointer; font-size: 0.9rem; font-weight: 700; }
+    .bm-modal-ok:hover { background: #b02020; }
 
     /* ===== MOBILE TOGGLE ===== */
     .mobile-nav-toggle {
@@ -2866,9 +2882,20 @@ print(sys.getsizeof(p1.__dict__)) # 通常: 辞書のサイズ分余分にかか
 
 <div class="floating-btns">
   <a class="float-btn" id="home-btn" href="../../index.html" title="ホームへ">🏠</a>
+  <a class="float-btn" id="bookmark-jump-btn" href="#" title="ブックマーク位置に移動" style="display:none">🔖</a>
   <a class="float-btn" id="back-to-top" href="#" title="一番上へ">↑</a>
 </div>
 <button class="mobile-nav-toggle" id="nav-toggle">☰</button>
+
+<div class="bm-modal-overlay" id="bm-modal-overlay">
+  <div class="bm-modal">
+    <p>ブックマークを削除しますか？</p>
+    <div class="bm-modal-btns">
+      <button class="bm-modal-cancel" id="bm-modal-cancel">キャンセル</button>
+      <button class="bm-modal-ok" id="bm-modal-ok">削除</button>
+    </div>
+  </div>
+</div>
 
 <script>
   hljs.highlightAll();
@@ -2940,6 +2967,81 @@ print(sys.getsizeof(p1.__dict__)) # 通常: 辞書のサイズ分余分にかか
     if (!sidebar.contains(e.target) && e.target !== toggle) sidebar.classList.remove("is-open");
   });
   navLinks.forEach(l => l.addEventListener("click", () => setTimeout(() => sidebar.classList.remove("is-open"), 180)));
+
+  // ── ブックマーク機能 ──────────────────────────────────
+  (function () {
+    const STORAGE_KEY = 'bm_' + location.pathname;
+    const allItems    = Array.from(document.querySelectorAll('.item'));
+    const jumpBtn     = document.getElementById('bookmark-jump-btn');
+    const overlay     = document.getElementById('bm-modal-overlay');
+    const modalOk     = document.getElementById('bm-modal-ok');
+    const modalCancel = document.getElementById('bm-modal-cancel');
+
+    function getIdx()   { return parseInt(localStorage.getItem(STORAGE_KEY) ?? '-1', 10); }
+    function saveIdx(i) { localStorage.setItem(STORAGE_KEY, i); }
+
+    function renderBM() {
+      const idx = getIdx();
+      allItems.forEach((el, i) => {
+        const active = i === idx;
+        el.classList.toggle('is-bookmarked', active);
+        let line = el.querySelector('.bm-line');
+        if (active) {
+          if (!line) {
+            line = document.createElement('div');
+            line.className = 'bm-line';
+            line.innerHTML =
+              '<span class="bm-line-icon">🔖</span>' +
+              '<span class="bm-line-dash"></span>' +
+              '<button class="bm-line-del" title="ブックマークを削除">✕</button>';
+            line.querySelector('.bm-line-del').addEventListener('click', () => overlay.classList.add('is-open'));
+            el.prepend(line);
+          }
+        } else {
+          if (line) line.remove();
+        }
+      });
+      jumpBtn.style.display = idx >= 0 && idx < allItems.length ? 'flex' : 'none';
+    }
+
+    window.addEventListener('scroll', () => {
+      if (getIdx() === -2) {
+        if (window.scrollY < 200) saveIdx(-1);
+        return;
+      }
+      const midY = window.innerHeight * 0.5;
+      let lastRead = -1;
+      allItems.forEach((el, i) => {
+        if (el.classList.contains('hidden')) return;
+        if (el.getBoundingClientRect().bottom < midY) lastRead = i;
+      });
+      if (lastRead < 0) return;
+      const next = lastRead + 1;
+      if (next >= allItems.length) return;
+      if (next > getIdx()) { saveIdx(next); renderBM(); }
+    }, { passive: true });
+
+    jumpBtn.addEventListener('click', e => {
+      e.preventDefault();
+      const idx = getIdx();
+      if (idx >= 0 && idx < allItems.length) {
+        const toolbar = document.getElementById('toolbar');
+        const offset  = (toolbar ? toolbar.getBoundingClientRect().height : 0) + 16;
+        const top     = allItems[idx].getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+
+    modalOk.addEventListener('click', () => {
+      saveIdx(-2);  // -2 = クリア済センチネル
+      overlay.classList.remove('is-open');
+      renderBM();
+    });
+    modalCancel.addEventListener('click', () => overlay.classList.remove('is-open'));
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('is-open'); });
+
+    renderBM();
+  })();
 </script>
 </body>
 </html>
