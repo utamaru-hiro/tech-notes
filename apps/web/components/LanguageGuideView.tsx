@@ -69,7 +69,7 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
         }
         return;
       }
-      const midY = window.innerHeight * 0.5;
+      const midY = window.innerHeight / 3;
       const allItems = Array.from(
         document.querySelectorAll<HTMLElement>('.item[data-item-idx]')
       );
