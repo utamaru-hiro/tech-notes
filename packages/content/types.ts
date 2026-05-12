@@ -35,6 +35,8 @@ export interface LanguageGuide {
   accent: string;           // '#4a6fa5'
   accent2: string;          // '#e8f0fb'
   bgGradientTop: string;    // '#eef2f8' — body 背景グラデーションの上端色
+  bgRadialLeft: string;     // 'rgba(74,111,165,0.15)' — 左上の輬射グラデーション
+  bgRadialRight: string;    // 'rgba(168,180,200,0.18)' — 右上の輬射グラデーション
   badgeGradient: string;    // 'linear-gradient(135deg, #1e3a5f, #4a6fa5)'
   heroEmoji: string;        // '⚙️'
   navGroups: NavGroup[];

@@ -32,8 +32,14 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
   // 言語ごとの背景色を body に注入
   useEffect(() => {
     document.body.style.setProperty('--bg-top', guide.bgGradientTop);
-    return () => { document.body.style.removeProperty('--bg-top'); };
-  }, [guide.bgGradientTop]);
+    document.body.style.setProperty('--bg-radial-left', guide.bgRadialLeft);
+    document.body.style.setProperty('--bg-radial-right', guide.bgRadialRight);
+    return () => {
+      document.body.style.removeProperty('--bg-top');
+      document.body.style.removeProperty('--bg-radial-left');
+      document.body.style.removeProperty('--bg-radial-right');
+    };
+  }, [guide.bgGradientTop, guide.bgRadialLeft, guide.bgRadialRight]);
 
   // ブックマーク: 変更を localStorage に保存
   useEffect(() => {

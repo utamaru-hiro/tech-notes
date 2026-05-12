@@ -19,11 +19,13 @@
 html { scroll-behavior: smooth; }
 body {
   --bg-top: #eef2f8;
+  --bg-radial-left: rgba(74,111,165,0.15);
+  --bg-radial-right: rgba(168,180,200,0.18);
   font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left,  rgba(74, 111, 165, 0.15), transparent 30%),
-    radial-gradient(circle at top right, rgba(168, 180, 200, 0.18), transparent 28%),
+    radial-gradient(circle at top left,  var(--bg-radial-left),  transparent 30%),
+    radial-gradient(circle at top right, var(--bg-radial-right), transparent 28%),
     linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   min-height: 100vh;
 }

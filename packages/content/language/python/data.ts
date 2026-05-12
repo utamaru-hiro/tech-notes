@@ -8,6 +8,8 @@ const data: LanguageGuide = {
   accent: '#306998',
   accent2: '#ffd43b',
   bgGradientTop: '#f0f6fc',
+  bgRadialLeft: 'rgba(48,105,152,0.15)',
+  bgRadialRight: 'rgba(255,212,59,0.18)',
   badgeGradient: 'linear-gradient(135deg, #306998, #ffd43b)',
   heroEmoji: '🐍',
   navGroups: [
