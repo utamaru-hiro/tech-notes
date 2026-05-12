@@ -8,8 +8,10 @@ const cData: LanguageGuide = require('@tech-notes/content/language/c').default;
 const pythonData: LanguageGuide = require('@tech-notes/content/language/python').default;
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const rustData: LanguageGuide = require('@tech-notes/content/language/rust').default;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const cppData: LanguageGuide = require('@tech-notes/content/language/cpp').default;
 
-const GUIDES: Record<string, LanguageGuide> = { c: cData, python: pythonData, rust: rustData };
+const GUIDES: Record<string, LanguageGuide> = { c: cData, python: pythonData, rust: rustData, cpp: cppData };
 
 export function generateStaticParams() {
   return Object.keys(GUIDES).map((lang) => ({ lang }));

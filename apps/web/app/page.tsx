@@ -4,6 +4,7 @@ const LANGS = [
   { slug: 'c', emoji: '⚙️', title: 'C 言語仕様ガイド', desc: 'ポインタ・メモリ管理・未定義動作など C 固有の落とし穴を重点解説。14 章構成。' },
   { slug: 'python', emoji: '🐍', title: 'Python 言語仕様ガイド', desc: '型ヒント・内包表記・非同期処理まで Python 3.12 を体系的に解説。16 章構成。' },
   { slug: 'rust', emoji: '🦀', title: 'Rust 言語仕様ガイド', desc: '所有権・借用・ライフタイムなど Rust 固有の概念を丁寧に解説。16 章構成。' },
+  { slug: 'cpp', emoji: '⚡', title: 'C++ 言語仕様ガイド', desc: 'ポインタ・RAII・テンプレート・スマートポインタなど C++ 固有の概念を重点解説。16 章構成。' },
 ];
 
 export default function Home() {
