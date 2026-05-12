@@ -7,6 +7,7 @@ const data: LanguageGuide = {
   lead: `他言語の経験者が 2〜3 時間でざっと読み通せるリファレンスです。C 固有の落とし穴（ポインタ・未定義動作・メモリ管理）は「要注意」ボックスで強調しています。`,
   accent: '#4a6fa5',
   accent2: '#e8f0fb',
+  bgGradientTop: '#eef2f8',
   badgeGradient: 'linear-gradient(135deg, #1e3a5f, #4a6fa5)',
   heroEmoji: '⚙️',
   navGroups: [

@@ -7,6 +7,7 @@ const data: LanguageGuide = {
   lead: `他言語の経験者が 2〜3 時間でざっと読み通せるリファレンスです。所有権・借用・ライフタイムなど Rust 固有の概念と落とし穴は「要注意」ボックスで強調しています。`,
   accent: '#ce4a00',
   accent2: '#fdf3ee',
+  bgGradientTop: '#fdf3ee',
   badgeGradient: 'linear-gradient(135deg, #ce4a00, #fdf3ee)',
   heroEmoji: '🦀',
   navGroups: [

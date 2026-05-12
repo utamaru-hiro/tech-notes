@@ -29,6 +29,12 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
     bmIdxRef.current = idx;
   }, [BM_KEY]);
 
+  // 言語ごとの背景色を body に注入
+  useEffect(() => {
+    document.body.style.setProperty('--bg-top', guide.bgGradientTop);
+    return () => { document.body.style.removeProperty('--bg-top'); };
+  }, [guide.bgGradientTop]);
+
   // ブックマーク: 変更を localStorage に保存
   useEffect(() => {
     bmIdxRef.current = bmIdx;

@@ -32,10 +32,11 @@ export interface LanguageGuide {
   langSlug: string;       // 'c' | 'python' | 'rust'
   version: string;        // 'C11/C17' | 'Python 3.12' | ...
   lead: string;
-  accent: string;         // '#4a6fa5'
-  accent2: string;        // '#e8f0fb'
-  badgeGradient: string;  // 'linear-gradient(135deg, #1e3a5f, #4a6fa5)'
-  heroEmoji: string;      // '⚙️'
+  accent: string;           // '#4a6fa5'
+  accent2: string;          // '#e8f0fb'
+  bgGradientTop: string;    // '#eef2f8' — body 背景グラデーションの上端色
+  badgeGradient: string;    // 'linear-gradient(135deg, #1e3a5f, #4a6fa5)'
+  heroEmoji: string;        // '⚙️'
   navGroups: NavGroup[];
   sections: Section[];
 }

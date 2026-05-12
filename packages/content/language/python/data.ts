@@ -7,6 +7,7 @@ const data: LanguageGuide = {
   lead: `他言語の経験者が 2〜3 時間でざっと読み通せるリファレンスです。Python 固有の注意点は「要注意」ボックスで強調しています。`,
   accent: '#306998',
   accent2: '#ffd43b',
+  bgGradientTop: '#f0f6fc',
   badgeGradient: 'linear-gradient(135deg, #306998, #ffd43b)',
   heroEmoji: '🐍',
   navGroups: [
