@@ -15,7 +15,15 @@ const CATEGORIES: Category[] = [
   {
     label: 'スクリプト系',
     langs: [
-      { slug: 'python', emoji: '🐍', title: 'Python', desc: '型ヒント・内包表記・非同期処理まで Python 3.12 を体系的に解説。16 章構成。' },
+      { slug: 'python',     emoji: '🐍', title: 'Python',     desc: '型ヒント・内包表記・非同期処理まで Python 3.12 を体系的に解説。16 章構成。' },
+      { slug: 'javascript', emoji: '🟨', title: 'JavaScript', desc: '型強制・プロトタイプ・イベントループなど JS 固有の動作と落とし穴を重点解説。16 章構成。' },
+      { slug: 'typescript', emoji: '🔷', title: 'TypeScript', desc: '型システムの仕組みから Mapped Types・Conditional Types まで体系的に解説。16 章構成。' },
+    ],
+  },
+  {
+    label: 'システム・並行処理系（Go）',
+    langs: [
+      { slug: 'go', emoji: '🐹', title: 'Go', desc: 'goroutine・channel・インターフェースなど Go 固有の設計思想を重点解説。16 章構成。' },
     ],
   },
 ];
