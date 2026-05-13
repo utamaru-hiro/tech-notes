@@ -26,6 +26,33 @@ const CATEGORIES: Category[] = [
       { slug: 'go', emoji: '🐹', title: 'Go', desc: 'goroutine・channel・インターフェースなど Go 固有の設計思想を重点解説。16 章構成。' },
     ],
   },
+  {
+    label: 'JVM 系',
+    langs: [
+      { slug: 'java',   emoji: '☕', title: 'Java',   desc: 'クラス・ジェネリクス・Stream API など Java 17 を体系的に解説。16 章構成。' },
+      { slug: 'kotlin', emoji: '🟣', title: 'Kotlin', desc: 'null 安全・コルーチン・データクラスなど Kotlin 固有の機能を重点解説。16 章構成。' },
+    ],
+  },
+  {
+    label: '.NET 系',
+    langs: [
+      { slug: 'csharp', emoji: '🔵', title: 'C#', desc: 'LINQ・async/await・パターンマッチングなど C# 12 を体系的に解説。16 章構成。' },
+    ],
+  },
+  {
+    label: 'モバイル系',
+    langs: [
+      { slug: 'swift', emoji: '🦅', title: 'Swift', desc: 'オプショナル・プロトコル・concurrency など Swift 5 を体系的に解説。16 章構成。' },
+      { slug: 'dart',  emoji: '🎯', title: 'Dart',  desc: 'null 安全・非同期処理・Flutter との関係など Dart 3 を体系的に解説。16 章構成。' },
+    ],
+  },
+  {
+    label: 'スクリプト・Web バックエンド系',
+    langs: [
+      { slug: 'ruby', emoji: '💎', title: 'Ruby', desc: 'ブロック・イテレータ・メタプログラミングなど Ruby 3 を体系的に解説。16 章構成。' },
+      { slug: 'php',  emoji: '🐘', title: 'PHP',  desc: '型宣言・match 式・Fibers など PHP 8 の現代的な機能を体系的に解説。16 章構成。' },
+    ],
+  },
 ];
 
 function LangCard({ l }: { l: LangEntry }) {
