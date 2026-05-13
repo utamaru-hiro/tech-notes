@@ -10,6 +10,7 @@ const CATEGORIES: Category[] = [
       { slug: 'c',    emoji: '⚙️', title: 'C',    desc: 'ポインタ・メモリ管理・未定義動作など C 固有の落とし穴を重点解説。14 章構成。' },
       { slug: 'cpp',  emoji: '⚡', title: 'C++',  desc: 'RAII・テンプレート・スマートポインタなど C++ 固有の概念を重点解説。16 章構成。' },
       { slug: 'rust', emoji: '🦀', title: 'Rust', desc: '所有権・借用・ライフタイムなど Rust 固有の概念を丁寧に解説。16 章構成。' },
+      { slug: 'zig',  emoji: '⚡', title: 'Zig',  desc: 'comptime・エラーユニオン・手動メモリ管理など Zig 固有の概念を重点解説。16 章構成。' },
     ],
   },
   {
@@ -31,12 +32,14 @@ const CATEGORIES: Category[] = [
     langs: [
       { slug: 'java',   emoji: '☕', title: 'Java',   desc: 'クラス・ジェネリクス・Stream API など Java 17 を体系的に解説。16 章構成。' },
       { slug: 'kotlin', emoji: '🟣', title: 'Kotlin', desc: 'null 安全・コルーチン・データクラスなど Kotlin 固有の機能を重点解説。16 章構成。' },
+      { slug: 'scala',  emoji: '⚡', title: 'Scala',  desc: '関数型×OOP・型システム・並行処理など Scala 3 を体系的に解説。16 章構成。' },
     ],
   },
   {
     label: '.NET 系',
     langs: [
-      { slug: 'csharp', emoji: '🔵', title: 'C#', desc: 'LINQ・async/await・パターンマッチングなど C# 12 を体系的に解説。16 章構成。' },
+      { slug: 'csharp',  emoji: '🔵', title: 'C#',  desc: 'LINQ・async/await・パターンマッチングなど C# 12 を体系的に解説。16 章構成。' },
+      { slug: 'fsharp',  emoji: '🔮', title: 'F#',  desc: '型推論・判別共用体・コンピュテーション式など F# 8 を体系的に解説。16 章構成。' },
     ],
   },
   {
@@ -51,6 +54,13 @@ const CATEGORIES: Category[] = [
     langs: [
       { slug: 'ruby', emoji: '💎', title: 'Ruby', desc: 'ブロック・イテレータ・メタプログラミングなど Ruby 3 を体系的に解説。16 章構成。' },
       { slug: 'php',  emoji: '🐘', title: 'PHP',  desc: '型宣言・match 式・Fibers など PHP 8 の現代的な機能を体系的に解説。16 章構成。' },
+    ],
+  },
+  {
+    label: '関数型・並行処理系',
+    langs: [
+      { slug: 'elixir',  emoji: '💧', title: 'Elixir',  desc: 'アクターモデル・OTP・Phoenix など Elixir 1.17 を体系的に解説。16 章構成。' },
+      { slug: 'haskell', emoji: 'λ',  title: 'Haskell', desc: '純粋関数型・型クラス・モナドなど GHC 9.x を体系的に解説。16 章構成。' },
     ],
   },
 ];

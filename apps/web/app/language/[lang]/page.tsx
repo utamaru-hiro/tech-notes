@@ -30,8 +30,18 @@ const dartData: LanguageGuide = require('@tech-notes/content/language/dart').def
 const rubyData: LanguageGuide = require('@tech-notes/content/language/ruby').default;
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const phpData: LanguageGuide = require('@tech-notes/content/language/php').default;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const scalaData: LanguageGuide = require('@tech-notes/content/language/scala').default;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const elixirData: LanguageGuide = require('@tech-notes/content/language/elixir').default;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const fsharpData: LanguageGuide = require('@tech-notes/content/language/fsharp').default;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const haskellData: LanguageGuide = require('@tech-notes/content/language/haskell').default;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const zigData: LanguageGuide = require('@tech-notes/content/language/zig').default;
 
-const GUIDES: Record<string, LanguageGuide> = { c: cData, python: pythonData, rust: rustData, cpp: cppData, go: goData, javascript: jsData, typescript: tsData, java: javaData, kotlin: kotlinData, csharp: csharpData, swift: swiftData, dart: dartData, ruby: rubyData, php: phpData };
+const GUIDES: Record<string, LanguageGuide> = { c: cData, python: pythonData, rust: rustData, cpp: cppData, go: goData, javascript: jsData, typescript: tsData, java: javaData, kotlin: kotlinData, csharp: csharpData, swift: swiftData, dart: dartData, ruby: rubyData, php: phpData, scala: scalaData, elixir: elixirData, fsharp: fsharpData, haskell: haskellData, zig: zigData };
 
 export function generateStaticParams() {
   return Object.keys(GUIDES).map((lang) => ({ lang }));

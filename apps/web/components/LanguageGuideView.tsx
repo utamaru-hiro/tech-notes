@@ -321,7 +321,7 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
                             <pre>
                               <code
                                 className={`language-${guide.langSlug}`}
-                                dangerouslySetInnerHTML={{ __html: hljs.highlight(cb.code, { language: guide.langSlug }).value }}
+                                dangerouslySetInnerHTML={{ __html: (() => { try { return hljs.highlight(cb.code, { language: cb.lang.toLowerCase() }).value; } catch { return hljs.highlightAuto(cb.code).value; } })() }}
                               />
                             </pre>
                           </div>
