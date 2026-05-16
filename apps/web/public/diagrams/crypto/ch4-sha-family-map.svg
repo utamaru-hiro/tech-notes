@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="t d">
+  <title id="t">SHAファミリの系譜と推奨状況</title>
+  <desc id="d">SHA-1、SHA-2、SHA-3の関係と新規採用時の推奨を示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 19px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.arrow{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+      .legacy{fill:#fdecec;stroke:#d88989}.main{fill:#edf8ed;stroke:#78a878}.alt{fill:#eef4ff;stroke:#6f91c8}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="520"/>
+  <text class="title" x="48" y="60">SHAファミリの位置づけ</text>
+
+  <rect class="box legacy" x="90" y="130" width="300" height="250" rx="14"/>
+  <text class="h" x="130" y="180">SHA-1（歴史的方式）</text>
+  <text class="b" x="130" y="215">衝突攻撃が実証済み</text>
+  <text class="b" x="130" y="245">新規用途では非推奨</text>
+  <text class="b" x="130" y="275">互換維持用途に限定</text>
+
+  <rect class="box main" x="450" y="130" width="300" height="250" rx="14"/>
+  <text class="h" x="490" y="180">SHA-2（現行主流）</text>
+  <text class="b" x="490" y="215">SHA-256/384中心</text>
+  <text class="b" x="490" y="245">規格・実装支援が豊富</text>
+  <text class="b" x="490" y="275">監査適合しやすい</text>
+
+  <rect class="box alt" x="810" y="130" width="300" height="250" rx="14"/>
+  <text class="h" x="850" y="180">SHA-3（代替系統）</text>
+  <text class="b" x="850" y="215">Keccak系設計</text>
+  <text class="b" x="850" y="245">系統多様性を確保</text>
+  <text class="b" x="850" y="275">将来移行候補として有効</text>
+
+  <path class="arrow" d="M390 255 H450"/>
+  <path class="arrow" d="M750 255 H810"/>
+
+  <text class="b" x="95" y="450">採用判断は、理論性能だけでなく規格適合・ライブラリ成熟度・移行容易性を合わせて行う。</text>
+</svg>

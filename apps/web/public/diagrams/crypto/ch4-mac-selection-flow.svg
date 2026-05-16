@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">MAC方式選定フロー</title>
+  <desc id="d">既存暗号基盤と規格要件からHMAC、CMAC、KMACを選ぶための分岐図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .node{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.q{fill:#fdf3d8;stroke:#b99234}.h{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.line{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+      .tag{font:700 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#7a5c00}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="560"/>
+  <text class="title" x="48" y="58">MAC方式選定（実務向け）</text>
+
+  <rect class="node q" x="450" y="110" width="300" height="90" rx="12"/>
+  <text class="h" x="495" y="162">既存の暗号基盤は何か？</text>
+
+  <rect class="node" x="120" y="270" width="280" height="170" rx="12"/>
+  <text class="h" x="165" y="320">HMAC</text>
+  <text class="b" x="150" y="352">ハッシュ基盤で実装容易</text>
+  <text class="b" x="150" y="380">互換性と普及性が高い</text>
+
+  <rect class="node" x="460" y="270" width="280" height="170" rx="12"/>
+  <text class="h" x="510" y="320">CMAC</text>
+  <text class="b" x="490" y="352">AES中心環境で統一しやすい</text>
+  <text class="b" x="490" y="380">ハード支援と相性が良い</text>
+
+  <rect class="node" x="800" y="270" width="280" height="170" rx="12"/>
+  <text class="h" x="850" y="320">KMAC</text>
+  <text class="b" x="830" y="352">SHA-3系を前提とする設計</text>
+  <text class="b" x="830" y="380">拡張性と将来性を確保</text>
+
+  <path class="line" d="M600 200 L260 270"/>
+  <path class="line" d="M600 200 L600 270"/>
+  <path class="line" d="M600 200 L940 270"/>
+
+  <text class="tag" x="255" y="248">ハッシュ中心</text>
+  <text class="tag" x="560" y="248">AES中心</text>
+  <text class="tag" x="905" y="248">SHA-3中心</text>
+
+  <text class="b" x="120" y="510">方式選定は速度だけでなく、監査要件・既存実装・移行計画を含めて判断する。</text>
+</svg>

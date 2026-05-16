@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="t d">
+  <title id="t">署名生成と検証のパイプライン</title>
+  <desc id="d">署名対象正規化、署名生成、配布、検証の手順を示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .node{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.line{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="520"/>
+  <text class="title" x="48" y="58">署名運用の基本パイプライン</text>
+
+  <rect class="node" x="70" y="180" width="220" height="140" rx="12"/>
+  <text class="h" x="100" y="228">1. 正規化</text>
+  <text class="b" x="90" y="258">署名対象を固定化</text>
+
+  <rect class="node" x="340" y="180" width="220" height="140" rx="12"/>
+  <text class="h" x="380" y="228">2. 署名生成</text>
+  <text class="b" x="360" y="258">秘密鍵で署名作成</text>
+
+  <rect class="node" x="610" y="180" width="220" height="140" rx="12"/>
+  <text class="h" x="650" y="228">3. 配布</text>
+  <text class="b" x="642" y="258">署名とデータを送信</text>
+
+  <rect class="node" x="880" y="180" width="220" height="140" rx="12"/>
+  <text class="h" x="920" y="228">4. 検証</text>
+  <text class="b" x="900" y="258">公開鍵で検証判定</text>
+
+  <path class="line" d="M290 250 H340"/>
+  <path class="line" d="M560 250 H610"/>
+  <path class="line" d="M830 250 H880"/>
+
+  <text class="b" x="74" y="470">署名方式より前段の正規化定義が曖昧だと、正当データでも検証不一致が発生する。</text>
+</svg>

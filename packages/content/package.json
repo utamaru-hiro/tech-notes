@@ -6,6 +6,7 @@
   "types": "./types.ts",
   "exports": {
     ".": "./types.ts",
+    "./crypto": "./crypto/data.ts",
     "./language/*": "./language/*/data.ts"
   }
 }

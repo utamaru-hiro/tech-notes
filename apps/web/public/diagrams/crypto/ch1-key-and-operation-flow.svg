@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+  <title id="title">送信者と受信者の鍵・操作フロー図</title>
+  <desc id="desc">暗号化と復号で送信者と受信者が保持する情報の違いを示す。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fff9ed"/>
+      <stop offset="100%" stop-color="#f4ead7"/>
+    </linearGradient>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a5c00"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #3d2d00; }
+      .head { font: 700 22px 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #3d2d00; }
+      .text { font: 500 17px 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #4d4638; }
+      .cap { font: 500 16px 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #5a695c; }
+      .lane { fill: #fffdf8; stroke: #c9a24a; stroke-width: 2; rx: 18; }
+      .tag { fill: #f6edd9; stroke: #d7b164; stroke-width: 1.5; rx: 10; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="460" fill="url(#bg3)"/>
+  <text x="56" y="56" class="title">鍵と暗号操作の役割分担</text>
+
+  <rect class="lane" x="56" y="98" width="500" height="280"/>
+  <text x="86" y="142" class="head">送信者</text>
+  <rect class="tag" x="86" y="168" width="250" height="44"/>
+  <text x="102" y="197" class="text">保有: 平文 / 秘密鍵(共有鍵)</text>
+  <rect class="tag" x="86" y="226" width="220" height="44"/>
+  <text x="102" y="255" class="text">操作: 暗号化</text>
+  <rect class="tag" x="86" y="284" width="250" height="44"/>
+  <text x="102" y="313" class="text">出力: 暗号文を送信</text>
+
+  <rect class="lane" x="644" y="98" width="500" height="280"/>
+  <text x="674" y="142" class="head">受信者</text>
+  <rect class="tag" x="674" y="168" width="250" height="44"/>
+  <text x="690" y="197" class="text">保有: 暗号文 / 秘密鍵(対応鍵)</text>
+  <rect class="tag" x="674" y="226" width="220" height="44"/>
+  <text x="690" y="255" class="text">操作: 復号</text>
+  <rect class="tag" x="674" y="284" width="250" height="44"/>
+  <text x="690" y="313" class="text">出力: 平文を復元</text>
+
+  <line x1="356" y1="306" x2="636" y2="306" stroke="#7a5c00" stroke-width="3" marker-end="url(#arrow3)"/>
+  <text x="496" y="288" text-anchor="middle" class="text">暗号文チャネル</text>
+
+  <text x="56" y="426" class="cap">ポイント: アルゴリズムを隠すのではなく、鍵を安全に生成・保管・更新する運用設計が強度を左右する。</text>
+</svg>

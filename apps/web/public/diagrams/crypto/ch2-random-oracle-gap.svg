@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="t d">
+  <title id="t">ランダムオラクルの前提と実装差分</title>
+  <desc id="d">理想モデルと実装現実のギャップを示す。</desc>
+  <defs><style>.bg{fill:#f9f2e4}.box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2;rx:14}.h{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.s{font:700 21px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.p{font:500 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.warn{fill:#8a4d00;font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif}</style></defs>
+  <rect class="bg" width="1200" height="430"/>
+  <text x="48" y="56" class="h">モデル前提と実装現実の差</text>
+  <rect class="box" x="72" y="100" width="470" height="250"/>
+  <text x="100" y="142" class="s">理想モデル（Random Oracle）</text>
+  <text x="100" y="178" class="p">ハッシュを完全ランダム関数として扱う</text>
+  <text x="100" y="210" class="p">証明記述が簡潔になり比較しやすい</text>
+  <rect class="box" x="658" y="100" width="470" height="250"/>
+  <text x="686" y="142" class="s">実装現実</text>
+  <text x="686" y="178" class="p">具体的ハッシュ関数とAPIに依存</text>
+  <text x="686" y="210" class="p">入力正規化、例外処理、乱数品質が影響</text>
+  <text x="686" y="242" class="p">前提外は別途レビューが必要</text>
+  <text x="516" y="384" class="warn" text-anchor="middle">証明結果を活用しつつ、差分を実装レビューで埋める</text>
+</svg>

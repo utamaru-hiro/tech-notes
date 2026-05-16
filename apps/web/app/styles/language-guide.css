@@ -1,0 +1,10 @@
+/* ===== Language guide specific styles ===== */
+.language-guide .section-num {
+  min-width: 2.2em;
+  text-align: center;
+}
+
+.language-guide .section-head .badge {
+  min-width: 3.6em;
+  text-align: center;
+}

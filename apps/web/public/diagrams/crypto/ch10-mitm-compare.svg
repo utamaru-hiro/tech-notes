@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">MITM対策比較図</title>
+  <desc id="d">認証検証なしとありで中間者攻撃成立可否が変わることを示す比較図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .l{fill:#fdecec;stroke:#d88989;stroke-width:2}.r{fill:#edf8ed;stroke:#78a878;stroke-width:2}
+      .h{font:700 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">中間者攻撃: 検証の有無で結果が変わる</text>
+
+  <rect class="l" x="80" y="120" width="500" height="360" rx="14"/>
+  <text class="h" x="120" y="165">認証検証なし</text>
+  <text class="b" x="120" y="205">Client -> Attacker -> Server</text>
+  <text class="b" x="120" y="235">鍵合意は成立するが相手同一性が未確認</text>
+  <text class="b" x="120" y="265">結果: MITM成立</text>
+
+  <rect class="r" x="620" y="120" width="500" height="360" rx="14"/>
+  <text class="h" x="660" y="165">認証検証あり</text>
+  <text class="b" x="660" y="205">証明書連鎖 + ホスト名 + 鍵確認</text>
+  <text class="b" x="660" y="235">不一致時は接続拒否</text>
+  <text class="b" x="660" y="265">結果: MITM検出</text>
+
+  <text class="b" x="82" y="525">暗号化通信の成立だけでは不十分で、相手認証の検証成功まで含めて安全性が成立する。</text>
+</svg>

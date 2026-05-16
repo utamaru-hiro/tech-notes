@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">鍵ライフサイクル循環図</title>
+  <desc id="d">鍵の生成、配布、保管、利用、失効、廃棄を循環工程として示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .c{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .ln{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">鍵ライフサイクル管理</text>
+
+  <circle class="c" cx="600" cy="280" r="190"/>
+
+  <rect class="c" x="560" y="80" width="80" height="42" rx="8"/>
+  <text class="h" x="575" y="108">生成</text>
+
+  <rect class="c" x="780" y="170" width="80" height="42" rx="8"/>
+  <text class="h" x="795" y="198">配布</text>
+
+  <rect class="c" x="820" y="330" width="80" height="42" rx="8"/>
+  <text class="h" x="835" y="358">保管</text>
+
+  <rect class="c" x="560" y="440" width="80" height="42" rx="8"/>
+  <text class="h" x="575" y="468">利用</text>
+
+  <rect class="c" x="300" y="330" width="80" height="42" rx="8"/>
+  <text class="h" x="315" y="358">失効</text>
+
+  <rect class="c" x="340" y="170" width="80" height="42" rx="8"/>
+  <text class="h" x="355" y="198">廃棄</text>
+
+  <path class="ln" d="M640 102 C730 120 780 150 820 190"/>
+  <path class="ln" d="M860 212 C900 250 900 300 860 350"/>
+  <path class="ln" d="M820 372 C760 420 700 450 640 462"/>
+  <path class="ln" d="M560 462 C500 450 430 420 380 372"/>
+  <path class="ln" d="M340 350 C300 300 300 250 340 212"/>
+  <path class="ln" d="M380 190 C430 140 500 110 560 102"/>
+
+  <text class="b" x="80" y="530">各工程ごとに責任者、承認条件、監査ログを定義することで、鍵事故の追跡と復旧が可能になる。</text>
+</svg>

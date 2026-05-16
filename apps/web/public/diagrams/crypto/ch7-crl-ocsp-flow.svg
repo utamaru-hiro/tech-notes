@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="t d">
+  <title id="t">CRLとOCSPの失効確認フロー</title>
+  <desc id="d">証明書失効確認の2方式を左右で比較したフロー図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.line{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="540"/>
+  <text class="title" x="48" y="58">失効確認: CRL と OCSP</text>
+
+  <rect class="box" x="80" y="120" width="500" height="360" rx="14"/>
+  <text class="h" x="120" y="165">CRL方式（配布型）</text>
+  <text class="b" x="120" y="205">1. クライアントがCRLを取得</text>
+  <text class="b" x="120" y="235">2. 証明書シリアル番号を照合</text>
+  <text class="b" x="120" y="265">3. 失効有無をローカル判定</text>
+  <text class="b" x="120" y="315">利点: オフライン判定しやすい</text>
+  <text class="b" x="120" y="345">注意: 即時性・配布サイズ</text>
+
+  <rect class="box" x="620" y="120" width="500" height="360" rx="14"/>
+  <text class="h" x="660" y="165">OCSP方式（照会型）</text>
+  <text class="b" x="660" y="205">1. クライアントがOCSP応答者へ照会</text>
+  <text class="b" x="660" y="235">2. ステータス署名応答を受領</text>
+  <text class="b" x="660" y="265">3. 応答署名と鮮度を検証</text>
+  <text class="b" x="660" y="315">利点: 状態鮮度が高い</text>
+  <text class="b" x="660" y="345">注意: 可用性・プライバシー配慮</text>
+
+  <path class="line" d="M580 300 H620"/>
+
+  <text class="b" x="82" y="515">運用ではフェイル時方針を定義し、CRLとOCSPを補完的に組み合わせる設計が現実的。</text>
+</svg>

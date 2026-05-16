@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="t d">
+  <title id="t">RSA暗号化における前処理比較</title>
+  <desc id="d">素朴RSAとOAEP適用RSAの違いを比較し、実運用の推奨を示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .bad{fill:#fdecec;stroke:#d88989;stroke-width:2}.good{fill:#edf8ed;stroke:#78a878;stroke-width:2}
+      .h{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="520"/>
+  <text class="title" x="48" y="58">RSA暗号化: 素朴方式とOAEP</text>
+
+  <rect class="bad" x="90" y="120" width="490" height="300" rx="14"/>
+  <text class="h" x="130" y="168">素朴RSA（非推奨）</text>
+  <text class="b" x="130" y="208">平文 -> RSA演算 -> 暗号文</text>
+  <text class="b" x="130" y="238">同一平文は同一暗号文になりやすい</text>
+  <text class="b" x="130" y="268">選択平文攻撃に弱い設計</text>
+
+  <rect class="good" x="620" y="120" width="490" height="300" rx="14"/>
+  <text class="h" x="660" y="168">RSA-OAEP（推奨）</text>
+  <text class="b" x="660" y="208">平文 + 乱数 + パディング -> RSA演算</text>
+  <text class="b" x="660" y="238">同一平文でも暗号文の多様性を確保</text>
+  <text class="b" x="660" y="268">実務要件に適した安全設計</text>
+
+  <text class="b" x="90" y="470">RSA方式名だけでなく、前処理パディングを含めて安全要件を満たしているかを検証する必要がある。</text>
+</svg>

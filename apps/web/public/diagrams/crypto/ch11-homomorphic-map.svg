@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">準同型暗号の演算対応図</title>
+  <desc id="d">平文上の演算と暗号文上の演算が対応する概念を示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .p{fill:#eef4ff;stroke:#6f91c8;stroke-width:2}.c{fill:#edf8ed;stroke:#78a878;stroke-width:2}
+      .h{font:700 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">準同型暗号の基本対応</text>
+
+  <rect class="p" x="110" y="170" width="420" height="220" rx="12"/>
+  <text class="h" x="160" y="220">平文領域</text>
+  <text class="b" x="150" y="255">m1 + m2 -> m3</text>
+  <text class="b" x="150" y="285">m1 * m2 -> m4</text>
+
+  <rect class="c" x="670" y="170" width="420" height="220" rx="12"/>
+  <text class="h" x="720" y="220">暗号文領域</text>
+  <text class="b" x="710" y="255">Enc(m1) (+) Enc(m2)</text>
+  <text class="b" x="710" y="285">Enc(m1) (*) Enc(m2)</text>
+
+  <text class="b" x="110" y="525">平文化せず演算できる利点がある一方、計算コスト増加と実装複雑性を受け入れる設計判断が必要。</text>
+</svg>

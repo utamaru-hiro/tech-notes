@@ -9,7 +9,7 @@ interface Props {
   homeHref: string;
 }
 
-export default function LanguageGuideView({ guide, homeHref }: Props) {
+export default function CryptoGuideView({ guide, homeHref }: Props) {
   const [activeLevel, setActiveLevel] = useState<'all' | 'basic' | 'advanced'>('all');
   const [query, setQuery] = useState('');
   const [activeSection, setActiveSection] = useState(guide.sections[0]?.id ?? '');
@@ -120,7 +120,7 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
     if (activeLevel !== 'all' && item.level !== activeLevel) return false;
     if (query) {
       const q = query.toLowerCase();
-      const itemLabel = (item.name ?? item.title ?? '').toLowerCase();
+      const itemLabel = (item.title ?? item.name ?? '').toLowerCase();
       if (
         !item.keywords.toLowerCase().includes(q) &&
         !itemLabel.includes(q) &&
@@ -145,6 +145,25 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
   }
   const totalItems = flatCounter;
 
+  const sectionById = new Map(guide.sections.map((sec) => [sec.id, sec]));
+  const chapterBySectionId = new Map<string, string>();
+  const chapterLeadBySectionId = new Map<string, string | undefined>();
+  const firstVisibleSectionIdSet = new Set<string>();
+  for (const group of guide.navGroups) {
+    const visibleSectionIds = group.sections.filter((sectionId) => {
+      const sec = sectionById.get(sectionId);
+      return sec ? isSectionVisible(sec) : false;
+    });
+    if (visibleSectionIds[0]) {
+      firstVisibleSectionIdSet.add(visibleSectionIds[0]);
+    }
+
+    for (const sectionId of group.sections) {
+      chapterBySectionId.set(sectionId, group.label);
+      chapterLeadBySectionId.set(sectionId, group.lead);
+    }
+  }
+
   const copyCode = async (code: string, btn: HTMLButtonElement) => {
     await navigator.clipboard.writeText(code);
     btn.textContent = 'コピー済み';
@@ -157,7 +176,7 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
 
   return (
     <div
-      className="layout language-guide"
+      className="layout tech-guide"
       style={
         {
           '--accent': guide.accent,
@@ -177,7 +196,7 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
           <span>
             {guide.lang}
             <br />
-            言語仕様ガイド
+            暗号技術ガイド
           </span>
         </div>
 
@@ -208,13 +227,13 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
         <header className="hero">
           <span className="hero-emoji" aria-hidden="true">{guide.heroEmoji}</span>
           <h1>
-            <em>{guide.lang}</em> 言語仕様ガイド
+            <em>{guide.lang}</em> 技術ガイド
           </h1>
           <p className="lead">{guide.lead}</p>
           <div className="hero-chips">
             <span className="chip">{guide.version}</span>
-            <span className="chip">経験者向け</span>
-            <span className="chip">コード例付き</span>
+            <span className="chip">章・節構成</span>
+            <span className="chip">キーワード一覧</span>
           </div>
         </header>
 
@@ -255,95 +274,136 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
           )}
 
           {guide.sections.map((sec) => {
-            const secVisible = isSectionVisible(sec);
+            const visibleItems = sec.items.filter((item) => filterVisible(sec, item));
+            const sectionKeywords = sec.keywords?.length
+              ? sec.keywords
+              : visibleItems
+                  .map((item) => item.title ?? item.name ?? '')
+                  .filter((word) => word.length > 0);
+            const secVisible = visibleItems.length > 0;
+            const showChapterPanel = firstVisibleSectionIdSet.has(sec.id);
+            const chapterTitle = chapterBySectionId.get(sec.id) ?? '章未設定';
+            const chapterLead = chapterLeadBySectionId.get(sec.id);
             return (
-              <div
-                key={sec.id}
-                className={`section-card${secVisible ? '' : ' hidden'}`}
-                id={sec.id}
-              >
-                <div className="section-head">
-                  <span className="section-num">{String(sec.num).padStart(2, '0')}</span>
-                  <h2>{sec.title}</h2>
-                  <span className="badge">{sec.level === 'basic' ? '基礎' : '応用'}</span>
-                </div>
-                <div className="items-list">
-                  {sec.items.map((item) => {
-                    const itemVisible = filterVisible(sec, item);
-                    const flatIdx = flatIndexMap.get(item.id) ?? 0;
-                    const isBookmarked = flatIdx === bmIdx;
-                    return (
-                      <div
-                        key={item.id}
-                        className={`item${itemVisible ? '' : ' hidden'}${isBookmarked ? ' is-bookmarked' : ''}`}
-                        data-level={item.level}
-                        data-keywords={item.keywords}
-                        data-item-idx={flatIdx}
-                      >
-                        {isBookmarked && (
-                          <div className="bm-line">
-                            <span className="bm-line-icon">🔖</span>
-                            <span className="bm-line-dash" />
-                            <button
-                              className="bm-line-del"
-                              title="ブックマークを削除"
-                              onClick={() => setBmModalOpen(true)}
-                            >✕</button>
-                          </div>
-                        )}
-                        <div className="item-header">
-                          <span className="item-name">{item.name ?? item.title ?? ''}</span>
-                          <span className={`level-pill pill-${item.level}`}>
-                            {item.level === 'basic' ? '基礎' : '応用'}
-                          </span>
-                        </div>
-                        <p
-                          className="item-desc"
-                          dangerouslySetInnerHTML={{
-                            __html: item.desc.replace(
-                              /`([^`]+)`/g,
-                              '<code>$1</code>'
-                            ),
-                          }}
-                        />
-                        {item.code?.map((cb, i) => (
-                          <div key={i} className="code-wrap">
-                            <div className="code-header">
-                              <span className="code-lang">{cb.lang}</span>
-                              <button
-                                className="copy-btn"
-                                onClick={(e) =>
-                                  copyCode(cb.code, e.currentTarget)
-                                }
-                              >
-                                コピー
-                              </button>
-                            </div>
-                            <pre>
-                              <code
-                                className={`language-${guide.langSlug}`}
-                                dangerouslySetInnerHTML={{ __html: (() => { try { return hljs.highlight(cb.code, { language: cb.lang.toLowerCase() }).value; } catch { return hljs.highlightAuto(cb.code).value; } })() }}
-                              />
-                            </pre>
-                          </div>
+              <div key={sec.id} className="section-block">
+                {showChapterPanel && (
+                  <section className="chapter-panel">
+                    <h2>{chapterTitle}</h2>
+                    {chapterLead && <p className="chapter-panel-lead">{chapterLead}</p>}
+                  </section>
+                )}
+
+                <div
+                  className={`section-card${secVisible ? '' : ' hidden'}`}
+                  id={sec.id}
+                >
+                  <div className="section-head">
+                    <span className="section-num">{String(sec.num).padStart(2, '0')}節</span>
+                    <h2>{sec.title}</h2>
+                    <span className="badge">{chapterTitle}</span>
+                  </div>
+                  {sec.lead && <p className="section-lead section-lead-under">{sec.lead}</p>}
+                  {sec.lead && sectionKeywords.length > 0 && (
+                    <div className="section-keywords">
+                      <span className="section-keywords-label">キーワード</span>
+                      <div className="section-keyword-list">
+                        {sectionKeywords.map((word) => (
+                          <span key={`kw-${sec.id}-${word}`} className="section-keyword-chip">{word}</span>
                         ))}
-                        {item.output && (
-                          <div className="output-box">{item.output}</div>
-                        )}
-                        {item.warn && (
-                          <div
-                            className="warn-box"
+                      </div>
+                    </div>
+                  )}
+                  <div className="items-list">
+                    {sec.items.map((item) => {
+                      const itemVisible = filterVisible(sec, item);
+                      const flatIdx = flatIndexMap.get(item.id) ?? 0;
+                      const isBookmarked = flatIdx === bmIdx;
+                      return (
+                        <div
+                          key={item.id}
+                          className={`item${itemVisible ? '' : ' hidden'}${isBookmarked ? ' is-bookmarked' : ''}`}
+                          data-level={item.level}
+                          data-keywords={item.keywords}
+                          data-item-idx={flatIdx}
+                        >
+                          {isBookmarked && (
+                            <div className="bm-line">
+                              <span className="bm-line-icon">🔖</span>
+                              <span className="bm-line-dash" />
+                              <button
+                                className="bm-line-del"
+                                title="ブックマークを削除"
+                                onClick={() => setBmModalOpen(true)}
+                              >✕</button>
+                            </div>
+                          )}
+                          <div className="item-header">
+                            <span className="item-name">{item.title ?? item.name ?? ''}</span>
+                            <span className={`level-pill pill-${item.level}`}>
+                              {item.level === 'basic' ? '基礎' : '応用'}
+                            </span>
+                          </div>
+                          <p
+                            className="item-desc"
                             dangerouslySetInnerHTML={{
-                              __html: item.warn.replace(
+                              __html: item.desc.replace(
                                 /`([^`]+)`/g,
                                 '<code>$1</code>'
                               ),
                             }}
                           />
-                        )}
-                      </div>
-                    );
-                  })}
+                          {item.diagram && (
+                            <figure className="diagram-figure">
+                              <img
+                                className="diagram-image"
+                                src={item.diagram.src}
+                                alt={item.diagram.alt}
+                                loading="lazy"
+                              />
+                              {item.diagram.caption && (
+                                <figcaption>{item.diagram.caption}</figcaption>
+                              )}
+                            </figure>
+                          )}
+                          {item.code?.map((cb, i) => (
+                            <div key={i} className="code-wrap">
+                              <div className="code-header">
+                                <span className="code-lang">{cb.lang}</span>
+                                <button
+                                  className="copy-btn"
+                                  onClick={(e) =>
+                                    copyCode(cb.code, e.currentTarget)
+                                  }
+                                >
+                                  コピー
+                                </button>
+                              </div>
+                              <pre>
+                                <code
+                                  className={`language-${guide.langSlug}`}
+                                  dangerouslySetInnerHTML={{ __html: (() => { try { return hljs.highlight(cb.code, { language: cb.lang.toLowerCase() }).value; } catch { return hljs.highlightAuto(cb.code).value; } })() }}
+                                />
+                              </pre>
+                            </div>
+                          ))}
+                          {item.output && (
+                            <div className="output-box">{item.output}</div>
+                          )}
+                          {item.warn && (
+                            <div
+                              className="warn-box"
+                              dangerouslySetInnerHTML={{
+                                __html: item.warn.replace(
+                                  /`([^`]+)`/g,
+                                  '<code>$1</code>'
+                                ),
+                              }}
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             );

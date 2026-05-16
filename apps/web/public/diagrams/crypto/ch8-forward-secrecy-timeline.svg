@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">前方秘匿性の時系列イメージ</title>
+  <desc id="d">長期鍵漏えい前後で過去通信の復号可能範囲がどう変わるかを示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .h{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+      .ln{stroke:#a67a19;stroke-width:3}.d{stroke-dasharray:8 7}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">前方秘匿性（PFS）と鍵漏えい影響</text>
+
+  <line class="ln" x1="100" y1="220" x2="1100" y2="220"/>
+  <text class="h" x="100" y="195">時系列</text>
+
+  <rect x="180" y="250" width="120" height="70" fill="#edf8ed" stroke="#78a878"/>
+  <rect x="360" y="250" width="120" height="70" fill="#edf8ed" stroke="#78a878"/>
+  <rect x="540" y="250" width="120" height="70" fill="#edf8ed" stroke="#78a878"/>
+  <rect x="720" y="250" width="120" height="70" fill="#edf8ed" stroke="#78a878"/>
+  <rect x="900" y="250" width="120" height="70" fill="#edf8ed" stroke="#78a878"/>
+
+  <text class="b" x="200" y="292">Session A</text>
+  <text class="b" x="380" y="292">Session B</text>
+  <text class="b" x="560" y="292">Session C</text>
+  <text class="b" x="740" y="292">Session D</text>
+  <text class="b" x="920" y="292">Session E</text>
+
+  <line class="ln d" x1="690" y1="140" x2="690" y2="400"/>
+  <text class="h" x="640" y="130">長期鍵漏えい</text>
+
+  <text class="b" x="180" y="380">PFSあり: 過去セッション鍵は破棄済みで復号困難</text>
+  <text class="b" x="180" y="410">PFSなし: 長期鍵依存のため過去通信が連鎖的に危険化</text>
+
+  <text class="b" x="80" y="530">TLS利用有無ではなく、セッション鍵導出方式と鍵破棄設計で前方秘匿性の有無が決まる。</text>
+</svg>

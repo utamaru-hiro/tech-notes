@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">コミットメントと検証構造比較図</title>
+  <desc id="d">コミットメント、メルクル木、ハッシュチェーンの利用目的を比較する図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">検証基礎部品の使い分け</text>
+
+  <rect class="box" x="90" y="150" width="320" height="280" rx="12"/>
+  <text class="h" x="135" y="195">コミットメント</text>
+  <text class="b" x="120" y="225">隠蔽性 + 束縛性</text>
+  <text class="b" x="120" y="255">後で開示検証</text>
+
+  <rect class="box" x="440" y="150" width="320" height="280" rx="12"/>
+  <text class="h" x="510" y="195">メルクル木</text>
+  <text class="b" x="470" y="225">集合内包含を短証明で検証</text>
+  <text class="b" x="470" y="255">部分検証向け</text>
+
+  <rect class="box" x="790" y="150" width="320" height="280" rx="12"/>
+  <text class="h" x="850" y="195">ハッシュチェーン</text>
+  <text class="b" x="825" y="225">時系列連結で改ざん検出</text>
+  <text class="b" x="825" y="255">履歴整合性向け</text>
+
+  <text class="b" x="92" y="525">検証対象が集合か時系列かで構造を選ぶと、証明サイズと運用コストの最適化がしやすい。</text>
+</svg>

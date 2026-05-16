@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="t d">
+  <title id="t">KDFによる鍵分離ツリー</title>
+  <desc id="d">マスター秘密から用途別にサブ鍵を導出し、鍵使い回しを避ける構成図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.line{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="540"/>
+  <text class="title" x="48" y="58">鍵導出で用途を分離する</text>
+
+  <rect class="box" x="470" y="100" width="260" height="90" rx="12"/>
+  <text class="h" x="500" y="150">マスター秘密</text>
+
+  <rect class="box" x="450" y="230" width="300" height="90" rx="12"/>
+  <text class="h" x="500" y="280">KDF（label/context）</text>
+
+  <rect class="box" x="100" y="380" width="250" height="110" rx="12"/>
+  <text class="h" x="145" y="430">暗号化鍵</text>
+  <text class="b" x="125" y="458">client->server 用</text>
+
+  <rect class="box" x="475" y="380" width="250" height="110" rx="12"/>
+  <text class="h" x="530" y="430">MAC鍵</text>
+  <text class="b" x="505" y="458">整合性検証 用</text>
+
+  <rect class="box" x="850" y="380" width="250" height="110" rx="12"/>
+  <text class="h" x="905" y="430">IV/nonce素材</text>
+  <text class="b" x="880" y="458">セッション毎に分離</text>
+
+  <path class="line" d="M600 190 V230"/>
+  <path class="line" d="M600 320 L225 380"/>
+  <path class="line" d="M600 320 V380"/>
+  <path class="line" d="M600 320 L975 380"/>
+
+  <text class="b" x="96" y="520">単一鍵の使い回しを避けることで、1機能の漏えいが全体へ波及するリスクを抑制できる。</text>
+</svg>

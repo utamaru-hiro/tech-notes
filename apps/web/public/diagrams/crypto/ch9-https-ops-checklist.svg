@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">HTTPS運用チェックリスト</title>
+  <desc id="d">証明書更新、TLS設定、リダイレクト、HSTS、混在コンテンツ確認を示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .card{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.ok{fill:#edf8ed;stroke:#78a878;stroke-width:2}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">HTTPS運用の定常チェック</text>
+
+  <rect class="card" x="90" y="120" width="1020" height="360" rx="14"/>
+
+  <rect class="ok" x="140" y="170" width="420" height="70" rx="10"/>
+  <text class="h" x="170" y="212">1. 証明書自動更新監視</text>
+
+  <rect class="ok" x="640" y="170" width="420" height="70" rx="10"/>
+  <text class="h" x="670" y="212">2. TLS設定強度確認</text>
+
+  <rect class="ok" x="140" y="265" width="420" height="70" rx="10"/>
+  <text class="h" x="170" y="307">3. HTTP->HTTPS強制</text>
+
+  <rect class="ok" x="640" y="265" width="420" height="70" rx="10"/>
+  <text class="h" x="670" y="307">4. HSTS運用確認</text>
+
+  <rect class="ok" x="390" y="360" width="420" height="70" rx="10"/>
+  <text class="h" x="420" y="402">5. 混在コンテンツ排除</text>
+
+  <text class="b" x="92" y="525">設定導入時だけでなく、更新失敗や設定退行を継続監視して初めてHTTPSの安全性が維持される。</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">耐量子移行ロードマップ</title>
+  <desc id="d">技術移行、運用更新、監査対応の3レーンで段階移行を示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .lane{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+      .p{fill:#edf8ed;stroke:#78a878;stroke-width:2}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">耐量子移行の3レーン管理</text>
+
+  <rect class="lane" x="80" y="110" width="1040" height="380" rx="14"/>
+
+  <text class="h" x="110" y="170">技術移行</text>
+  <rect class="p" x="240" y="140" width="220" height="45" rx="8"/><text class="b" x="285" y="168">資産可視化</text>
+  <rect class="p" x="500" y="140" width="220" height="45" rx="8"/><text class="b" x="535" y="168">ハイブリッド導入</text>
+  <rect class="p" x="760" y="140" width="220" height="45" rx="8"/><text class="b" x="795" y="168">本格切替</text>
+
+  <text class="h" x="110" y="280">運用更新</text>
+  <rect class="p" x="240" y="250" width="220" height="45" rx="8"/><text class="b" x="270" y="278">手順書更新</text>
+  <rect class="p" x="500" y="250" width="220" height="45" rx="8"/><text class="b" x="550" y="278">訓練と監視</text>
+  <rect class="p" x="760" y="250" width="220" height="45" rx="8"/><text class="b" x="800" y="278">定常運用化</text>
+
+  <text class="h" x="110" y="390">監査対応</text>
+  <rect class="p" x="240" y="360" width="220" height="45" rx="8"/><text class="b" x="280" y="388">要件定義</text>
+  <rect class="p" x="500" y="360" width="220" height="45" rx="8"/><text class="b" x="530" y="388">証跡整備</text>
+  <rect class="p" x="760" y="360" width="220" height="45" rx="8"/><text class="b" x="815" y="388">適合確認</text>
+
+  <text class="b" x="82" y="525">技術だけ先行せず、運用と監査を並走管理することで移行完了判定を明確にできる。</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="t d">
+  <title id="t">X.509証明書の主要フィールド</title>
+  <desc id="d">証明書検証時に確認すべき代表フィールドを示す解剖図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .card{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="540"/>
+  <text class="title" x="48" y="58">X.509証明書の確認ポイント</text>
+
+  <rect class="card" x="110" y="110" width="980" height="380" rx="14"/>
+
+  <text class="h" x="150" y="165">Subject / SAN</text>
+  <text class="b" x="150" y="190">接続先識別子との一致を確認</text>
+
+  <text class="h" x="150" y="245">Issuer</text>
+  <text class="b" x="150" y="270">信頼済みCA連鎖に接続できるか確認</text>
+
+  <text class="h" x="150" y="325">Validity</text>
+  <text class="b" x="150" y="350">有効期限内か、時計ずれを考慮して判定</text>
+
+  <text class="h" x="150" y="405">Key Usage / Extended Key Usage</text>
+  <text class="b" x="150" y="430">用途制約が接続目的と一致するか確認</text>
+
+  <text class="h" x="630" y="165">Signature Algorithm</text>
+  <text class="b" x="630" y="190">非推奨方式でないか確認</text>
+
+  <text class="h" x="630" y="245">Serial Number</text>
+  <text class="b" x="630" y="270">失効照会のキーとして利用</text>
+
+  <text class="h" x="630" y="325">Authority Information Access</text>
+  <text class="b" x="630" y="350">OCSP/CA情報取得先を確認</text>
+
+  <text class="h" x="630" y="405">CRL Distribution Points</text>
+  <text class="b" x="630" y="430">失効リスト取得先を確認</text>
+</svg>

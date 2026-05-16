@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="t d">
+  <title id="t">暗号モード比較マトリクス</title><desc id="d">GCM/CCM/CTR/CBC/ECB/XTSの特徴比較。</desc>
+  <defs><style>.bg{fill:#f9f2e4}.h{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.th{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.td{font:500 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}</style></defs>
+  <rect class="bg" width="1200" height="500"/>
+  <text x="48" y="56" class="h">主要モード比較（要点）</text>
+  <rect x="80" y="90" width="1040" height="360" fill="#fffdf8" stroke="#c9a24a" stroke-width="2" rx="12"/>
+  <text x="110" y="132" class="th">モード</text><text x="280" y="132" class="th">機密性</text><text x="450" y="132" class="th">完全性</text><text x="620" y="132" class="th">並列化</text><text x="790" y="132" class="th">注意点</text>
+  <text x="110" y="176" class="td">GCM</text><text x="280" y="176" class="td">○</text><text x="450" y="176" class="td">○</text><text x="620" y="176" class="td">○</text><text x="790" y="176" class="td">ノンス一意性必須</text>
+  <text x="110" y="218" class="td">CCM</text><text x="280" y="218" class="td">○</text><text x="450" y="218" class="td">○</text><text x="620" y="218" class="td">△</text><text x="790" y="218" class="td">実装条件を要確認</text>
+  <text x="110" y="260" class="td">CTR</text><text x="280" y="260" class="td">○</text><text x="450" y="260" class="td">×</text><text x="620" y="260" class="td">○</text><text x="790" y="260" class="td">改ざん検知は別途必要</text>
+  <text x="110" y="302" class="td">CBC</text><text x="280" y="302" class="td">○</text><text x="450" y="302" class="td">×</text><text x="620" y="302" class="td">×</text><text x="790" y="302" class="td">パディング処理に注意</text>
+  <text x="110" y="344" class="td">ECB</text><text x="280" y="344" class="td">△</text><text x="450" y="344" class="td">×</text><text x="620" y="344" class="td">○</text><text x="790" y="344" class="td">パターン漏えいで非推奨</text>
+  <text x="110" y="386" class="td">XTS</text><text x="280" y="386" class="td">○</text><text x="450" y="386" class="td">用途限定</text><text x="620" y="386" class="td">○</text><text x="790" y="386" class="td">主にストレージ向け</text>
+</svg>

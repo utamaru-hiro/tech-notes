@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">エンベロープ暗号アーキテクチャ</title>
+  <desc id="d">データ平面のDEKと鍵平面のKEKを分離する保護構成図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .dp{fill:#eef4ff;stroke:#6f91c8;stroke-width:2}.kp{fill:#edf8ed;stroke:#78a878;stroke-width:2}
+      .h{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+      .ln{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">データ平面と鍵平面の分離</text>
+
+  <rect class="dp" x="90" y="130" width="470" height="320" rx="14"/>
+  <text class="h" x="130" y="175">データ平面</text>
+  <text class="b" x="130" y="210">平文データ -> DEKで暗号化 -> 暗号文</text>
+  <text class="b" x="130" y="240">DEKはデータ単位で短寿命化</text>
+
+  <rect class="kp" x="640" y="130" width="470" height="320" rx="14"/>
+  <text class="h" x="680" y="175">鍵平面</text>
+  <text class="b" x="680" y="210">DEKをKEKでラップして保管</text>
+  <text class="b" x="680" y="240">KEKはKMS/HSMで集中管理</text>
+
+  <path class="ln" d="M560 260 H640"/>
+  <text class="b" x="580" y="245">wrap</text>
+
+  <text class="b" x="100" y="520">DEKとKEKを分離すると、鍵更新や監査対応を全データ再暗号化なしで段階的に実施しやすくなる。</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="t d">
+  <title id="t">楕円曲線方式の用途マップ</title>
+  <desc id="d">署名系と鍵合意系に分けて代表方式を配置した分類図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .area{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.sig{fill:#eef4ff;stroke:#6f91c8}.kex{fill:#edf8ed;stroke:#78a878}
+      .h{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="520"/>
+  <text class="title" x="48" y="58">楕円曲線方式を用途で整理する</text>
+
+  <rect class="area" x="70" y="110" width="1060" height="340" rx="14"/>
+
+  <rect class="sig" x="120" y="170" width="450" height="220" rx="12"/>
+  <text class="h" x="160" y="220">署名系</text>
+  <text class="b" x="160" y="252">ECDSA</text>
+  <text class="b" x="160" y="282">EdDSA / Ed25519</text>
+  <text class="b" x="160" y="312">目的: 完全性・真正性</text>
+
+  <rect class="kex" x="630" y="170" width="450" height="220" rx="12"/>
+  <text class="h" x="670" y="220">鍵合意系</text>
+  <text class="b" x="670" y="252">ECDH</text>
+  <text class="b" x="670" y="282">X25519 / Curve25519</text>
+  <text class="b" x="670" y="312">目的: 共有秘密導出</text>
+
+  <text class="b" x="74" y="486">方式選定は同じ楕円曲線系でも機能責務が異なるため、署名と鍵合意を分離して設計するのが原則。</text>
+</svg>

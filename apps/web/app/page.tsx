@@ -1,9 +1,29 @@
 import Link from 'next/link';
 
-type LangEntry = { slug: string; emoji: string; title: string; desc: string };
+type LangEntry = {
+  slug: string;
+  emoji: string;
+  title: string;
+  desc: string;
+  href?: string;
+  suffix?: string;
+};
 type Category = { label: string; langs: LangEntry[] };
 
 const CATEGORIES: Category[] = [
+  {
+    label: 'セキュリティ・暗号系',
+    langs: [
+      {
+        slug: 'crypto',
+        emoji: '🔐',
+        title: '暗号技術',
+        desc: '暗号技術キーワード200を、基礎概念から耐量子暗号まで章立てで整理したガイド。',
+        href: '/crypto/',
+        suffix: '技術ガイド',
+      },
+    ],
+  },
   {
     label: 'システム・低水準系',
     langs: [
@@ -68,7 +88,7 @@ const CATEGORIES: Category[] = [
 function LangCard({ l }: { l: LangEntry }) {
   return (
     <Link
-      href={`/language/${l.slug}/`}
+      href={l.href ?? `/language/${l.slug}/`}
       style={{
         display: 'block', padding: '20px 22px', borderRadius: 18,
         background: 'rgba(255,250,242,0.95)', border: '1px solid rgba(36,49,38,0.12)',
@@ -76,7 +96,7 @@ function LangCard({ l }: { l: LangEntry }) {
       }}
     >
       <div style={{ fontSize: '2rem', marginBottom: 8 }}>{l.emoji}</div>
-      <div style={{ fontWeight: 800, marginBottom: 6 }}>{l.title} 言語仕様ガイド</div>
+      <div style={{ fontWeight: 800, marginBottom: 6 }}>{l.title} {l.suffix ?? '言語仕様ガイド'}</div>
       <div style={{ fontSize: '0.85rem', color: '#5a695c', lineHeight: 1.65 }}>{l.desc}</div>
     </Link>
   );

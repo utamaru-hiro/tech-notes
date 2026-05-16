@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="t d">
+  <title id="t">公開鍵と秘密鍵の役割</title>
+  <desc id="d">暗号化復号と署名検証で鍵の使い方が反転することを示す2レーン図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .lane{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.line{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="520"/>
+  <text class="title" x="48" y="58">公開鍵暗号の2つの利用レーン</text>
+
+  <rect class="lane" x="90" y="120" width="480" height="300" rx="14"/>
+  <text class="h" x="130" y="165">暗号化 / 復号</text>
+  <text class="b" x="130" y="205">1. 送信者が公開鍵で暗号化</text>
+  <text class="b" x="130" y="235">2. 受信者が秘密鍵で復号</text>
+  <text class="b" x="130" y="265">目的: 機密性の確保</text>
+
+  <rect class="lane" x="630" y="120" width="480" height="300" rx="14"/>
+  <text class="h" x="670" y="165">署名 / 検証</text>
+  <text class="b" x="670" y="205">1. 送信者が秘密鍵で署名</text>
+  <text class="b" x="670" y="235">2. 受信者が公開鍵で検証</text>
+  <text class="b" x="670" y="265">目的: 完全性と真正性</text>
+
+  <path class="line" d="M330 300 H510"/>
+  <path class="line" d="M870 300 H1050"/>
+
+  <text class="b" x="92" y="470">同じ鍵ペアでも用途で役割が反転するため、暗号化鍵と署名鍵を運用上分離する設計が推奨される。</text>
+</svg>

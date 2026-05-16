@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="t d">
+  <title id="t">SPNとFeistelの構造比較</title><desc id="d">2つの代表構造をラウンド単位で比較。</desc>
+  <defs><style>.bg{fill:#f9f2e4}.h{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.s{font:700 20px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.p{font:500 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2;rx:12}</style></defs>
+  <rect class="bg" width="1200" height="470"/>
+  <text x="48" y="56" class="h">暗号内部構造の比較</text>
+  <rect class="box" x="72" y="100" width="500" height="300"/>
+  <text x="100" y="142" class="s">SPN</text>
+  <text x="100" y="178" class="p">SubBytes -> ShiftRows -> MixColumns -> AddRoundKey</text>
+  <text x="100" y="210" class="p">非線形と線形拡散を段階的に重ねる</text>
+  <rect class="box" x="628" y="100" width="500" height="300"/>
+  <text x="656" y="142" class="s">Feistel</text>
+  <text x="656" y="178" class="p">左右分割 + F関数 + XOR を反復</text>
+  <text x="656" y="210" class="p">復号を同形で組みやすい構造</text>
+  <text x="72" y="438" class="p">共通点: 混同（非線形）と拡散（線形）をラウンド反復で強化し、差分追跡を困難化する。</text>
+</svg>

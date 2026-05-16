@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">多要素認証の要素重ね合わせ</title>
+  <desc id="d">知識、所持、生体の3要素を重ねることで認証耐性を高める概念図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.h{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">多要素認証の設計</text>
+
+  <circle cx="470" cy="285" r="155" fill="#eef4ff" stroke="#6f91c8" stroke-width="2" opacity="0.9"/>
+  <circle cx="640" cy="285" r="155" fill="#edf8ed" stroke="#78a878" stroke-width="2" opacity="0.9"/>
+  <circle cx="555" cy="175" r="155" fill="#fdeed8" stroke="#c99b4a" stroke-width="2" opacity="0.9"/>
+
+  <text class="h" x="395" y="300">知識</text>
+  <text class="h" x="680" y="300">所持</text>
+  <text class="h" x="545" y="105">生体</text>
+  <text class="h" x="522" y="295">MFA</text>
+
+  <text class="b" x="820" y="200">攻撃者は複数カテゴリを同時突破する必要がある</text>
+  <text class="b" x="820" y="230">回復フロー未整備だと利用者迂回が増える</text>
+  <text class="b" x="820" y="260">強度と運用負荷を同時設計する</text>
+
+  <text class="b" x="80" y="530">異なる認証カテゴリを組み合わせると単一漏えいに強くなるが、運用設計を伴わない追加は逆効果になり得る。</text>
+</svg>

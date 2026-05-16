@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">リモート接続方式比較マトリクス</title>
+  <desc id="d">SSH、IPsec、WireGuard、VPNを保護レイヤと運用性で比較する図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .th{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.td{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">リモート接続方式の比較</text>
+
+  <rect x="70" y="100" width="1060" height="380" fill="#fffdf8" stroke="#c9a24a" stroke-width="2" rx="12"/>
+  <text class="th" x="100" y="145">方式</text>
+  <text class="th" x="280" y="145">主レイヤ</text>
+  <text class="th" x="460" y="145">用途</text>
+  <text class="th" x="690" y="145">運用特性</text>
+  <text class="th" x="900" y="145">注意点</text>
+
+  <text class="td" x="100" y="200">SSH</text>
+  <text class="td" x="280" y="200">アプリ層</text>
+  <text class="td" x="460" y="200">管理接続</text>
+  <text class="td" x="690" y="200">鍵認証が中心</text>
+  <text class="td" x="900" y="200">ホスト鍵確認必須</text>
+
+  <text class="td" x="100" y="255">IPsec</text>
+  <text class="td" x="280" y="255">L3</text>
+  <text class="td" x="460" y="255">拠点間保護</text>
+  <text class="td" x="690" y="255">標準化が強い</text>
+  <text class="td" x="900" y="255">設定が複雑</text>
+
+  <text class="td" x="100" y="310">WireGuard</text>
+  <text class="td" x="280" y="310">L3</text>
+  <text class="td" x="460" y="310">軽量VPN</text>
+  <text class="td" x="690" y="310">構成が簡潔</text>
+  <text class="td" x="900" y="310">鍵配布設計が鍵</text>
+
+  <text class="td" x="100" y="365">SSL VPN等</text>
+  <text class="td" x="280" y="365">L4/アプリ</text>
+  <text class="td" x="460" y="365">リモートアクセス</text>
+  <text class="td" x="690" y="365">導入しやすい</text>
+  <text class="td" x="900" y="365">設定逸脱監視が必要</text>
+
+  <text class="td" x="74" y="525">選定時は暗号強度だけでなく、鍵配布、監査、運用チームの習熟度まで含めて評価する。</text>
+</svg>

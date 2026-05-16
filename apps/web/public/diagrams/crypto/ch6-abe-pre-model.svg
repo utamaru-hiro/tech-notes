@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="t d">
+  <title id="t">属性ベース暗号と代理再暗号化の概念図</title>
+  <desc id="d">属性条件による復号制御と代理再暗号化による委譲の流れを示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.line{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="540"/>
+  <text class="title" x="48" y="58">応用公開鍵暗号の利用モデル</text>
+
+  <rect class="box" x="80" y="140" width="260" height="140" rx="12"/>
+  <text class="h" x="110" y="190">データ所有者</text>
+  <text class="b" x="110" y="220">属性条件で暗号化</text>
+
+  <rect class="box" x="430" y="140" width="340" height="140" rx="12"/>
+  <text class="h" x="470" y="190">属性ベース暗号（ABE）</text>
+  <text class="b" x="460" y="220">例: 部署=財務 かつ 役職=管理職</text>
+
+  <rect class="box" x="860" y="140" width="250" height="140" rx="12"/>
+  <text class="h" x="900" y="190">利用者A</text>
+  <text class="b" x="900" y="220">条件一致で復号可</text>
+
+  <rect class="box" x="430" y="340" width="340" height="140" rx="12"/>
+  <text class="h" x="465" y="390">代理再暗号化（PRE）</text>
+  <text class="b" x="460" y="420">平文を見ずに権限委譲</text>
+
+  <rect class="box" x="860" y="340" width="250" height="140" rx="12"/>
+  <text class="h" x="900" y="390">利用者B</text>
+  <text class="b" x="900" y="420">委譲後に復号可</text>
+
+  <path class="line" d="M340 210 H430"/>
+  <path class="line" d="M770 210 H860"/>
+  <path class="line" d="M770 410 H860"/>
+  <path class="line" d="M600 280 V340"/>
+
+  <text class="b" x="82" y="515">方式採用時は、暗号機能だけでなく属性更新・委譲失効・監査証跡まで含めた運用設計が必要。</text>
+</svg>

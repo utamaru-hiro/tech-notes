@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="t d">
+  <title id="t">IV・ノンス・AEADの関係</title><desc id="d">周辺パラメータと認証検証の関係を示す。</desc>
+  <defs><style>.bg{fill:#f9f2e4}.h{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.s{font:700 20px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.p{font:500 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2;rx:12}</style></defs>
+  <rect class="bg" width="1200" height="460"/>
+  <text x="48" y="56" class="h">安全運用で先に固定すべき周辺要件</text>
+  <rect class="box" x="72" y="100" width="310" height="140"/><text x="96" y="146" class="s">IV / ノンス</text><text x="96" y="178" class="p">一意性を保証</text><text x="96" y="206" class="p">再利用禁止</text>
+  <rect class="box" x="444" y="100" width="310" height="140"/><text x="468" y="146" class="s">パディング</text><text x="468" y="178" class="p">ブロック境界調整</text><text x="468" y="206" class="p">送受信で規則一致</text>
+  <rect class="box" x="816" y="100" width="310" height="140"/><text x="840" y="146" class="s">AEADタグ検証</text><text x="840" y="178" class="p">改ざん検知</text><text x="840" y="206" class="p">失敗時は平文破棄</text>
+  <rect class="box" x="260" y="286" width="680" height="120"/>
+  <text x="292" y="334" class="s">結論: 強いアルゴリズムでも、周辺要件を誤ると安全性は成立しない</text>
+  <text x="292" y="366" class="p">方式選定と同じ優先度で、パラメータ管理と検証順序を固定する</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="t d">
+  <title id="t">主要アルゴリズムの推奨状況タイムライン</title><desc id="d">歴史的方式と現行推奨の位置づけを示す。</desc>
+  <defs><style>.bg{fill:#f9f2e4}.h{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.p{font:500 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.s{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}</style></defs>
+  <rect class="bg" width="1200" height="430"/>
+  <text x="48" y="56" class="h">共通鍵アルゴリズムの現在地</text>
+  <line x1="80" y1="210" x2="1120" y2="210" stroke="#7a5c00" stroke-width="4"/>
+  <circle cx="220" cy="210" r="12" fill="#a98943"/><text x="186" y="186" class="s">DES</text><text x="156" y="250" class="p">新規採用非推奨</text>
+  <circle cx="370" cy="210" r="12" fill="#b08f49"/><text x="336" y="186" class="s">3DES</text><text x="324" y="250" class="p">段階廃止</text>
+  <circle cx="560" cy="210" r="12" fill="#9f7e3d"/><text x="536" y="186" class="s">AES</text><text x="500" y="250" class="p">現行標準</text>
+  <circle cx="760" cy="210" r="12" fill="#9f7e3d"/><text x="714" y="186" class="s">ChaCha20</text><text x="700" y="250" class="p">実装採用拡大</text>
+  <circle cx="980" cy="210" r="12" fill="#9f7e3d"/><text x="932" y="186" class="s">ChaCha20-Poly1305</text><text x="920" y="250" class="p">推奨AEAD構成</text>
+</svg>

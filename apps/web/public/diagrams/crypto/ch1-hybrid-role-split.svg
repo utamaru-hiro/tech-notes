@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">ハイブリッド暗号の責務分担図</title>
+  <desc id="desc">公開鍵暗号で鍵配送し、共通鍵暗号でデータ通信する分業構成を示す。</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fffaf0"/>
+      <stop offset="100%" stop-color="#f3e7cf"/>
+    </linearGradient>
+    <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a5c00"/>
+    </marker>
+    <style>
+      .title { font: 700 28px 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #3d2d00; }
+      .head { font: 700 21px 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #3d2d00; }
+      .text { font: 500 17px 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #4d4638; }
+      .cap { font: 500 16px 'Hiragino Sans', 'Yu Gothic', sans-serif; fill: #5a695c; }
+      .box { fill: #fffdf8; stroke: #c9a24a; stroke-width: 2; rx: 16; }
+      .lane1 { fill: rgba(122,92,0,0.10); }
+      .lane2 { fill: rgba(122,92,0,0.16); }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="500" fill="url(#bg4)"/>
+  <text x="56" y="58" class="title">ハイブリッド暗号の役割分担</text>
+
+  <rect x="56" y="104" width="1088" height="138" class="lane1" rx="14"/>
+  <text x="82" y="138" class="head">レーン1: 鍵配送（公開鍵暗号）</text>
+
+  <rect x="56" y="268" width="1088" height="154" class="lane2" rx="14"/>
+  <text x="82" y="302" class="head">レーン2: データ通信（共通鍵暗号）</text>
+
+  <rect class="box" x="100" y="152" width="230" height="70"/>
+  <text x="215" y="196" text-anchor="middle" class="text">公開鍵を取得</text>
+
+  <rect class="box" x="390" y="152" width="260" height="70"/>
+  <text x="520" y="196" text-anchor="middle" class="text">セッション鍵を生成</text>
+
+  <rect class="box" x="710" y="152" width="360" height="70"/>
+  <text x="890" y="196" text-anchor="middle" class="text">公開鍵で鍵を暗号化して送信</text>
+
+  <line x1="330" y1="187" x2="382" y2="187" stroke="#7a5c00" stroke-width="3" marker-end="url(#arrow4)"/>
+  <line x1="650" y1="187" x2="702" y2="187" stroke="#7a5c00" stroke-width="3" marker-end="url(#arrow4)"/>
+
+  <rect class="box" x="140" y="322" width="360" height="78"/>
+  <text x="320" y="369" text-anchor="middle" class="text">共通鍵で本文を暗号化して送信</text>
+
+  <rect class="box" x="700" y="322" width="360" height="78"/>
+  <text x="880" y="369" text-anchor="middle" class="text">同じ共通鍵で復号して利用</text>
+
+  <line x1="500" y1="361" x2="692" y2="361" stroke="#7a5c00" stroke-width="3" marker-end="url(#arrow4)"/>
+
+  <text x="56" y="468" class="cap">ポイント: 公開鍵暗号はセッション鍵を安全に配る導入役、本文保護の主役は高速な共通鍵暗号。</text>
+</svg>

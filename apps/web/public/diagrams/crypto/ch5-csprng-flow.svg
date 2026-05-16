@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="t d">
+  <title id="t">CSPRNGの入力と出力フロー</title>
+  <desc id="d">エントロピー収集、シード、再播種、乱数出力の流れを示す構成図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 15px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.line{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+      .warn{fill:#fdecec;stroke:#d88989}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="520"/>
+  <text class="title" x="48" y="58">暗号論的乱数生成の流れ</text>
+
+  <rect class="box" x="70" y="180" width="220" height="130" rx="12"/>
+  <text class="h" x="102" y="230">エントロピー源</text>
+  <text class="b" x="102" y="258">OS/デバイス雑音</text>
+
+  <rect class="box" x="350" y="180" width="220" height="130" rx="12"/>
+  <text class="h" x="408" y="230">初期シード</text>
+  <text class="b" x="390" y="258">品質が全体を左右</text>
+
+  <rect class="box" x="630" y="160" width="260" height="170" rx="12"/>
+  <text class="h" x="700" y="220">CSPRNG状態</text>
+  <text class="b" x="668" y="248">内部状態を更新しながら</text>
+  <text class="b" x="685" y="274">予測困難な出力を生成</text>
+
+  <rect class="box" x="950" y="180" width="180" height="130" rx="12"/>
+  <text class="h" x="985" y="230">乱数出力</text>
+  <text class="b" x="980" y="258">鍵/nonce生成</text>
+
+  <rect class="box warn" x="630" y="360" width="260" height="100" rx="12"/>
+  <text class="h" x="688" y="404">再播種</text>
+  <text class="b" x="660" y="430">長時間運用時に再入力</text>
+
+  <path class="line" d="M290 245 H350"/>
+  <path class="line" d="M570 245 H630"/>
+  <path class="line" d="M890 245 H950"/>
+  <path class="line" d="M760 330 V360"/>
+
+  <text class="b" x="72" y="490">固定シードや低品質シードは、強いアルゴリズムでも全体安全性を崩壊させる主要因となる。</text>
+</svg>

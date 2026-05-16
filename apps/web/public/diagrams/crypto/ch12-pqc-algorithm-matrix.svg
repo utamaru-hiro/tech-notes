@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">主要耐量子アルゴリズム比較</title>
+  <desc id="d">Kyber Dilithium Falcon SPHINCS+ McElieceの比較表。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .th{font:700 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.td{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">PQC主要方式比較</text>
+
+  <rect x="70" y="100" width="1060" height="390" fill="#fffdf8" stroke="#c9a24a" stroke-width="2" rx="12"/>
+  <text class="th" x="95" y="142">方式</text>
+  <text class="th" x="265" y="142">用途</text>
+  <text class="th" x="430" y="142">サイズ傾向</text>
+  <text class="th" x="620" y="142">速度傾向</text>
+  <text class="th" x="810" y="142">成熟度</text>
+
+  <text class="td" x="95" y="195">Kyber</text><text class="td" x="265" y="195">鍵共有(KEM)</text><text class="td" x="430" y="195">中</text><text class="td" x="620" y="195">高</text><text class="td" x="810" y="195">高</text>
+  <text class="td" x="95" y="245">Dilithium</text><text class="td" x="265" y="245">署名</text><text class="td" x="430" y="245">中</text><text class="td" x="620" y="245">中〜高</text><text class="td" x="810" y="245">高</text>
+  <text class="td" x="95" y="295">Falcon</text><text class="td" x="265" y="295">署名</text><text class="td" x="430" y="295">小</text><text class="td" x="620" y="295">高</text><text class="td" x="810" y="295">中</text>
+  <text class="td" x="95" y="345">SPHINCS+</text><text class="td" x="265" y="345">署名</text><text class="td" x="430" y="345">大</text><text class="td" x="620" y="345">低〜中</text><text class="td" x="810" y="345">高</text>
+  <text class="td" x="95" y="395">McEliece</text><text class="td" x="265" y="395">鍵共有(KEM)</text><text class="td" x="430" y="395">非常に大</text><text class="td" x="620" y="395">中</text><text class="td" x="810" y="395">高</text>
+
+  <text class="td" x="72" y="525">比較は単一指標でなく、サイズ速度成熟度を用途要件と結びつけて判断する必要がある。</text>
+</svg>

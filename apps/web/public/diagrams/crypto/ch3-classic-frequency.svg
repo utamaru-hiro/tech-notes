@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="t d">
+  <title id="t">古典暗号と頻度分析</title><desc id="d">平文頻度が暗号文に残ると解析されることを示す。</desc>
+  <defs><style>.bg{fill:#f9f2e4}.h{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.s{font:700 19px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.p{font:500 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2;rx:12}</style></defs>
+  <rect class="bg" width="1200" height="430"/>
+  <text x="48" y="56" class="h">古典暗号が破られる典型: 頻度分析</text>
+  <rect class="box" x="72" y="100" width="500" height="270"/>
+  <text x="100" y="142" class="s">平文文字頻度（例）</text>
+  <rect x="108" y="182" width="56" height="130" fill="#d7b56a"/><rect x="188" y="212" width="56" height="100" fill="#d7b56a"/><rect x="268" y="242" width="56" height="70" fill="#d7b56a"/><rect x="348" y="262" width="56" height="50" fill="#d7b56a"/>
+  <text x="108" y="336" class="p">A</text><text x="188" y="336" class="p">E</text><text x="268" y="336" class="p">I</text><text x="348" y="336" class="p">O</text>
+  <rect class="box" x="628" y="100" width="500" height="270"/>
+  <text x="656" y="142" class="s">単純置換後の暗号文頻度</text>
+  <rect x="664" y="182" width="56" height="130" fill="#b69142"/><rect x="744" y="212" width="56" height="100" fill="#b69142"/><rect x="824" y="242" width="56" height="70" fill="#b69142"/><rect x="904" y="262" width="56" height="50" fill="#b69142"/>
+  <text x="664" y="336" class="p">Q</text><text x="744" y="336" class="p">Z</text><text x="824" y="336" class="p">M</text><text x="904" y="336" class="p">T</text>
+</svg>

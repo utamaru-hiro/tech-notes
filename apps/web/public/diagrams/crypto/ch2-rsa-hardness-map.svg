@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="t d">
+  <title id="t">RSAの容易な計算と困難な逆問題</title>
+  <desc id="d">公開鍵処理は容易だが秘密鍵導出は素因数分解困難性に依存する構造。</desc>
+  <defs><style>.bg{fill:#f9f2e4}.box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2;rx:14}.h{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.s{font:700 21px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.p{font:500 17px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}</style></defs>
+  <rect class="bg" width="1200" height="460"/>
+  <text x="48" y="56" class="h">RSA安全性の構造</text>
+  <rect class="box" x="72" y="110" width="470" height="280"/>
+  <text x="100" y="154" class="s">容易: 公開鍵による暗号化/検証</text>
+  <text x="100" y="192" class="p">n, e が公開されていれば高速に計算できる</text>
+  <text x="100" y="226" class="p">実運用では OAEP/PSS などの構成が前提</text>
+  <rect class="box" x="658" y="110" width="470" height="280"/>
+  <text x="686" y="154" class="s">困難: 秘密鍵導出</text>
+  <text x="686" y="192" class="p">n から p, q を求めるには素因数分解が必要</text>
+  <text x="686" y="226" class="p">現実的時間で解けないことが安全性の前提</text>
+  <text x="686" y="260" class="p">鍵長と実装品質がこの前提を支える</text>
+</svg>

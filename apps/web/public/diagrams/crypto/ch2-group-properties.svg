@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="t d">
+  <title id="t">群の4性質と暗号利用</title>
+  <desc id="d">閉包、結合、単位元、逆元が鍵交換や署名の基盤になることを示す。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f9f2e4; }
+      .box { fill: #fffdf8; stroke: #c9a24a; stroke-width: 2; rx: 14; }
+      .h { font: 700 28px 'Hiragino Sans','Yu Gothic',sans-serif; fill: #3d2d00; }
+      .s { font: 700 20px 'Hiragino Sans','Yu Gothic',sans-serif; fill: #3d2d00; }
+      .p { font: 500 17px 'Hiragino Sans','Yu Gothic',sans-serif; fill: #4d4638; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="500"/>
+  <text x="48" y="56" class="h">群の4性質と暗号での使いどころ</text>
+  <rect class="box" x="48" y="96" width="250" height="120"/><text x="72" y="142" class="s">閉包</text><text x="72" y="174" class="p">演算結果が集合内に残る</text>
+  <rect class="box" x="330" y="96" width="250" height="120"/><text x="354" y="142" class="s">結合則</text><text x="354" y="174" class="p">計算順序を組み替え可能</text>
+  <rect class="box" x="612" y="96" width="250" height="120"/><text x="636" y="142" class="s">単位元</text><text x="636" y="174" class="p">値を保持する要素が存在</text>
+  <rect class="box" x="894" y="96" width="250" height="120"/><text x="918" y="142" class="s">逆元</text><text x="918" y="174" class="p">演算を打ち消す要素が存在</text>
+  <rect class="box" x="160" y="280" width="400" height="150"/>
+  <text x="188" y="330" class="s">鍵交換（DH/ECDH）</text>
+  <text x="188" y="362" class="p">共有計算規則を保証して</text>
+  <text x="188" y="390" class="p">同じ共有秘密へ到達できる</text>
+  <rect class="box" x="640" y="280" width="400" height="150"/>
+  <text x="668" y="330" class="s">署名（DSA/ECDSA）</text>
+  <text x="668" y="362" class="p">逆計算の困難性を前提に</text>
+  <text x="668" y="390" class="p">改ざん困難性を確保する</text>
+</svg>

@@ -7,6 +7,7 @@
     "noEmit": true,
     "paths": {
       "@tech-notes/content": ["./packages/content/types.ts"],
+      "@tech-notes/content/crypto": ["./packages/content/crypto/data.ts"],
       "@tech-notes/content/language/*": ["./packages/content/language/*/data.ts"]
     }
   },

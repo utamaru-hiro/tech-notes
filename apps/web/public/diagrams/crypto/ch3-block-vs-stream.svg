@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="t d">
+  <title id="t">ブロック暗号とストリーム暗号の比較</title><desc id="d">処理単位の違いを図示する。</desc>
+  <defs><style>.bg{fill:#f9f2e4}.h{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.s{font:700 19px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.p{font:500 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2;rx:12}</style></defs>
+  <rect class="bg" width="1200" height="430"/>
+  <text x="48" y="56" class="h">処理単位の違い</text>
+  <rect class="box" x="72" y="100" width="500" height="270"/>
+  <text x="100" y="142" class="s">ブロック暗号</text>
+  <rect x="100" y="180" width="90" height="52" fill="#d7b56a"/><rect x="200" y="180" width="90" height="52" fill="#d7b56a"/><rect x="300" y="180" width="90" height="52" fill="#d7b56a"/>
+  <text x="100" y="256" class="p">固定長ブロック単位で処理</text>
+  <text x="100" y="284" class="p">モード選定が安全性を左右</text>
+  <rect class="box" x="628" y="100" width="500" height="270"/>
+  <text x="656" y="142" class="s">ストリーム暗号</text>
+  <rect x="656" y="180" width="20" height="52" fill="#b69142"/><rect x="680" y="180" width="20" height="52" fill="#b69142"/><rect x="704" y="180" width="20" height="52" fill="#b69142"/><rect x="728" y="180" width="20" height="52" fill="#b69142"/><rect x="752" y="180" width="20" height="52" fill="#b69142"/>
+  <text x="656" y="256" class="p">逐次処理で低遅延に向く</text>
+  <text x="656" y="284" class="p">同一鍵・同一ノンス再利用は致命的</text>
+</svg>

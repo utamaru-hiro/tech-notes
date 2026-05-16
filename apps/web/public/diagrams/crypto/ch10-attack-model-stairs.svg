@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">攻撃モデル能力の階段図</title>
+  <desc id="d">既知平文、選択平文、選択暗号文の順に攻撃者能力が強まることを示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .step{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.h{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">攻撃者能力モデルの段階</text>
+
+  <rect class="step" x="140" y="360" width="280" height="120" rx="12"/>
+  <text class="h" x="190" y="420">KPA</text>
+  <text class="b" x="180" y="448">既知平文対を観測</text>
+
+  <rect class="step" x="470" y="260" width="280" height="120" rx="12"/>
+  <text class="h" x="520" y="320">CPA</text>
+  <text class="b" x="505" y="348">任意平文を暗号化照会</text>
+
+  <rect class="step" x="800" y="160" width="280" height="120" rx="12"/>
+  <text class="h" x="850" y="220">CCA</text>
+  <text class="b" x="835" y="248">任意暗号文を復号照会</text>
+
+  <text class="b" x="140" y="520">右へ進むほど攻撃者能力が高く、暗号方式に要求される安全性定義が厳しくなる。</text>
+</svg>

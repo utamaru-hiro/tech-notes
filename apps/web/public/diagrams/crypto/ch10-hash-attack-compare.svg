@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">ハッシュ誤用と安全構成の対比</title>
+  <desc id="d">長さ拡張攻撃が成立する構成とHMAC利用時の違いを示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .bad{fill:#fdecec;stroke:#d88989;stroke-width:2}.good{fill:#edf8ed;stroke:#78a878;stroke-width:2}
+      .h{font:700 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">長さ拡張攻撃の成立条件</text>
+
+  <rect class="bad" x="90" y="120" width="500" height="360" rx="14"/>
+  <text class="h" x="130" y="165">危険構成</text>
+  <text class="b" x="130" y="205">hash(secret || message)</text>
+  <text class="b" x="130" y="235">拡張入力で偽造余地が残る</text>
+
+  <rect class="good" x="620" y="120" width="500" height="360" rx="14"/>
+  <text class="h" x="660" y="165">推奨構成</text>
+  <text class="b" x="660" y="205">HMAC(secret, message)</text>
+  <text class="b" x="660" y="235">構造的に拡張耐性を確保</text>
+
+  <text class="b" x="92" y="525">ハッシュは認証用途に直接転用せず、用途別に定義された構成を採用することが重要。</text>
+</svg>

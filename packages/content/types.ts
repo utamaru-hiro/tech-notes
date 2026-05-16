@@ -3,12 +3,20 @@ export interface CodeBlock {
   code: string;
 }
 
+export interface DiagramAsset {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
 export interface Item {
   id: string;
-  name: string;
+  title?: string;     // 技術ガイド向けの表示名
+  name?: string;      // 言語ガイド向けの表示名
   level: 'basic' | 'advanced';
   keywords: string;   // スペース区切り
   desc: string;       // プレーンテキスト（インラインコードはバッククォート）
+  diagram?: DiagramAsset;
   code?: CodeBlock[];
   output?: string;
   warn?: string;
@@ -18,12 +26,15 @@ export interface Section {
   id: string;         // 's1' | 's2' | ...
   num: number;
   title: string;
+  lead?: string;
+  keywords?: string[];
   level: 'basic' | 'advanced';
   items: Item[];
 }
 
 export interface NavGroup {
   label: string;
+  lead?: string;
   sections: string[]; // Section.id の配列
 }
 

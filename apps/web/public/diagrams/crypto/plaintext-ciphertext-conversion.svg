@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300" role="img" aria-labelledby="title desc">
+  <title id="title">平文と暗号文の変換図</title>
+  <desc id="desc">平文を鍵で暗号化して暗号文に変換し、復号して平文に戻す流れを示す図</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5b6470" />
+    </marker>
+    <style>
+      .panel { stroke-width: 2; rx: 14; }
+      .txt { font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif; fill: #1f2937; font-size: 22px; font-weight: 700; }
+      .small { font-size: 19px; }
+      .line { stroke: #5b6470; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .key-line { stroke: #b65c3a; }
+      .note { font-size: 18px; fill: #4b5563; }
+    </style>
+  </defs>
+
+  <rect class="panel" x="30" y="150" width="150" height="72" fill="#dbeafe" stroke="#6695d3" />
+  <text class="txt" x="105" y="194" text-anchor="middle">平文</text>
+
+  <rect class="panel" x="240" y="150" width="180" height="72" fill="#fef3c7" stroke="#d8a742" />
+  <text class="txt small" x="330" y="194" text-anchor="middle">暗号化</text>
+
+  <rect class="panel" x="480" y="150" width="170" height="72" fill="#dcfce7" stroke="#67a97d" />
+  <text class="txt" x="565" y="194" text-anchor="middle">暗号文</text>
+
+  <rect class="panel" x="710" y="150" width="180" height="72" fill="#ffedd5" stroke="#d18b39" />
+  <text class="txt small" x="800" y="194" text-anchor="middle">復号</text>
+
+  <path class="line" d="M 180 186 L 240 186" />
+  <path class="line" d="M 420 186 L 480 186" />
+  <path class="line" d="M 650 186 L 710 186" />
+
+  <rect class="panel" x="260" y="42" width="140" height="62" fill="#fee2e2" stroke="#cd6b6b" />
+  <text class="txt" x="330" y="81" text-anchor="middle">鍵</text>
+
+  <rect class="panel" x="730" y="42" width="140" height="62" fill="#fee2e2" stroke="#cd6b6b" />
+  <text class="txt" x="800" y="81" text-anchor="middle">鍵</text>
+
+  <path class="line key-line" d="M 330 104 L 330 150" />
+  <path class="line key-line" d="M 800 104 L 800 150" />
+
+  <text class="txt note" x="480" y="268" text-anchor="middle">同じ鍵（または対応する鍵）で安全に変換と復元を行う</text>
+</svg>

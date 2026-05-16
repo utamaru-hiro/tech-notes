@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="t d">
+  <title id="t">ハッシュ関数の主要性質</title>
+  <desc id="d">決定性・一方向性・衝突耐性をハッシュ関数の中核性質として示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.title{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .box{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.label{font:700 18px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .body{font:500 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}.arrow{stroke:#a67a19;stroke-width:3;fill:none;marker-end:url(#m)}
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a67a19"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="500"/>
+  <text class="title" x="48" y="58">ハッシュ関数が満たすべき3性質</text>
+
+  <rect class="box" x="120" y="120" width="280" height="280" rx="14"/>
+  <text class="label" x="160" y="170">決定性</text>
+  <text class="body" x="160" y="205">同じ入力は同じ出力</text>
+  <text class="body" x="160" y="235">検証の再現性を担保</text>
+
+  <rect class="box" x="460" y="120" width="280" height="280" rx="14"/>
+  <text class="label" x="500" y="170">一方向性</text>
+  <text class="body" x="500" y="205">出力から入力を戻しにくい</text>
+  <text class="body" x="500" y="235">要約値の悪用を抑制</text>
+
+  <rect class="box" x="800" y="120" width="280" height="280" rx="14"/>
+  <text class="label" x="840" y="170">衝突耐性</text>
+  <text class="body" x="840" y="205">同じ出力になる別入力を</text>
+  <text class="body" x="840" y="235">見つけにくい</text>
+
+  <path class="arrow" d="M400 260 H460"/>
+  <path class="arrow" d="M740 260 H800"/>
+
+  <text class="body" x="130" y="450">暗号化とは目的が異なり、ハッシュは主に完全性確認と署名前処理の基盤として使われる。</text>
+</svg>

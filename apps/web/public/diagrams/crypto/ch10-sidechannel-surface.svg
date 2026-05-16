@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="t d">
+  <title id="t">サイドチャネル攻撃面</title>
+  <desc id="d">タイミング、電力、例外応答など実装周辺から漏れる情報面を示す図。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f9f2e4}.ttl{font:700 28px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}
+      .core{fill:#fffdf8;stroke:#c9a24a;stroke-width:2}.risk{fill:#fdecec;stroke:#d88989;stroke-width:2}
+      .h{font:700 16px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#3d2d00}.b{font:500 14px 'Hiragino Sans','Yu Gothic',sans-serif;fill:#4d4638}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="560"/>
+  <text class="ttl" x="48" y="58">実装依存攻撃の観測面</text>
+
+  <rect class="core" x="470" y="220" width="260" height="120" rx="12"/>
+  <text class="h" x="520" y="285">暗号処理コア</text>
+
+  <rect class="risk" x="130" y="110" width="260" height="90" rx="10"/>
+  <text class="b" x="170" y="160">タイミング差</text>
+
+  <rect class="risk" x="130" y="360" width="260" height="90" rx="10"/>
+  <text class="b" x="175" y="410">電力変動</text>
+
+  <rect class="risk" x="810" y="110" width="260" height="90" rx="10"/>
+  <text class="b" x="855" y="160">例外メッセージ差</text>
+
+  <rect class="risk" x="810" y="360" width="260" height="90" rx="10"/>
+  <text class="b" x="865" y="410">フォールト注入応答</text>
+
+  <text class="b" x="92" y="525">安全性評価はアルゴリズム内部だけでなく、呼び出し側実装とエラーパスを含めて行う必要がある。</text>
+</svg>
