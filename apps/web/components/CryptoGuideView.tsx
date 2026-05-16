@@ -7,9 +7,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 interface Props {
   guide: LanguageGuide;
   homeHref: string;
+  assetBasePath?: string;
 }
 
-export default function CryptoGuideView({ guide, homeHref }: Props) {
+export default function CryptoGuideView({ guide, homeHref, assetBasePath = '' }: Props) {
   const [activeLevel, setActiveLevel] = useState<'all' | 'basic' | 'advanced'>('all');
   const [query, setQuery] = useState('');
   const [activeSection, setActiveSection] = useState(guide.sections[0]?.id ?? '');
@@ -172,6 +173,15 @@ export default function CryptoGuideView({ guide, homeHref }: Props) {
       btn.textContent = 'コピー';
       btn.classList.remove('copied');
     }, 1500);
+  };
+
+  const resolveAssetPath = (src: string): string => {
+    if (!src.startsWith('/')) return src;
+    if (src.startsWith('//')) return src;
+    if (src.startsWith('/http://') || src.startsWith('/https://')) return src.slice(1);
+    if (!assetBasePath) return src;
+    if (src.startsWith(`${assetBasePath}/`)) return src;
+    return `${assetBasePath}${src}`;
   };
 
   return (
@@ -356,7 +366,7 @@ export default function CryptoGuideView({ guide, homeHref }: Props) {
                             <figure className="diagram-figure">
                               <img
                                 className="diagram-image"
-                                src={item.diagram.src}
+                                src={resolveAssetPath(item.diagram.src)}
                                 alt={item.diagram.alt}
                                 loading="lazy"
                               />

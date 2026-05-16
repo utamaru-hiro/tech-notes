@@ -12,5 +12,11 @@ export const metadata: Metadata = {
 
 export default async function CryptoPage() {
   const basePath = process.env.NODE_ENV === 'production' ? '/tech-notes' : '';
-  return <CryptoGuideView guide={cryptoData} homeHref={`${basePath}/`} />;
+  return (
+    <CryptoGuideView
+      guide={cryptoData}
+      homeHref={`${basePath}/`}
+      assetBasePath={basePath}
+    />
+  );
 }
