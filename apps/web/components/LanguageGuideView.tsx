@@ -121,8 +121,9 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
     if (query) {
       const q = query.toLowerCase();
       const itemLabel = (item.name ?? item.title ?? '').toLowerCase();
+      const keywords = (item.keywords ?? '').toLowerCase();
       if (
-        !item.keywords.toLowerCase().includes(q) &&
+        !keywords.includes(q) &&
         !itemLabel.includes(q) &&
         !item.desc.toLowerCase().includes(q)
       ) return false;
@@ -277,7 +278,7 @@ export default function LanguageGuideView({ guide, homeHref }: Props) {
                         key={item.id}
                         className={`item${itemVisible ? '' : ' hidden'}${isBookmarked ? ' is-bookmarked' : ''}`}
                         data-level={item.level}
-                        data-keywords={item.keywords}
+                        data-keywords={item.keywords ?? ''}
                         data-item-idx={flatIdx}
                       >
                         {isBookmarked && (

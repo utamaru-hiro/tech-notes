@@ -121,12 +121,15 @@ export default function CryptoGuideView({ guide, homeHref, assetBasePath = '' }:
     if (activeLevel !== 'all' && item.level !== activeLevel) return false;
     if (query) {
       const q = query.toLowerCase();
-      const itemLabel = (item.title ?? item.name ?? '').toLowerCase();
-      if (
-        !item.keywords.toLowerCase().includes(q) &&
-        !itemLabel.includes(q) &&
-        !item.desc.toLowerCase().includes(q)
-      ) return false;
+      const contentText = (item.contentHtml ?? '').replace(/<[^>]+>/g, ' ');
+      const searchTarget = [
+        item.title ?? item.name ?? '',
+        item.searchText ?? contentText ?? item.desc,
+        item.desc,
+      ]
+        .join(' ')
+        .toLowerCase();
+      if (!searchTarget.includes(q)) return false;
     }
     return true;
   }, [activeLevel, query]);
@@ -183,6 +186,16 @@ export default function CryptoGuideView({ guide, homeHref, assetBasePath = '' }:
     if (src.startsWith(`${assetBasePath}/`)) return src;
     return `${assetBasePath}${src}`;
   };
+
+  const resolveAssetPathInHtml = (html: string): string => (
+    html.replace(/\b(src|href)=("([^"]*)"|'([^']*)')/gi, (match, attr, quoted, dQuoted, sQuoted) => {
+      const rawUrl = (dQuoted ?? sQuoted ?? '').trim();
+      if (!rawUrl) return match;
+      const resolved = resolveAssetPath(rawUrl);
+      const quote = quoted.startsWith("'") ? "'" : '"';
+      return `${attr}=${quote}${resolved}${quote}`;
+    })
+  );
 
   return (
     <div
@@ -333,7 +346,6 @@ export default function CryptoGuideView({ guide, homeHref, assetBasePath = '' }:
                           key={item.id}
                           className={`item${itemVisible ? '' : ' hidden'}${isBookmarked ? ' is-bookmarked' : ''}`}
                           data-level={item.level}
-                          data-keywords={item.keywords}
                           data-item-idx={flatIdx}
                         >
                           {isBookmarked && (
@@ -353,27 +365,23 @@ export default function CryptoGuideView({ guide, homeHref, assetBasePath = '' }:
                               {item.level === 'basic' ? '基礎' : '応用'}
                             </span>
                           </div>
-                          <p
-                            className="item-desc"
-                            dangerouslySetInnerHTML={{
-                              __html: item.desc.replace(
-                                /`([^`]+)`/g,
-                                '<code>$1</code>'
-                              ),
-                            }}
-                          />
-                          {item.diagram && (
-                            <figure className="diagram-figure">
-                              <img
-                                className="diagram-image"
-                                src={resolveAssetPath(item.diagram.src)}
-                                alt={item.diagram.alt}
-                                loading="lazy"
-                              />
-                              {item.diagram.caption && (
-                                <figcaption>{item.diagram.caption}</figcaption>
-                              )}
-                            </figure>
+                          {item.contentHtml?.trim() ? (
+                            <div
+                              className="item-desc item-content"
+                              dangerouslySetInnerHTML={{
+                                __html: resolveAssetPathInHtml(item.contentHtml),
+                              }}
+                            />
+                          ) : (
+                            <p
+                              className="item-desc"
+                              dangerouslySetInnerHTML={{
+                                __html: item.desc.replace(
+                                  /`([^`]+)`/g,
+                                  '<code>$1</code>'
+                                ),
+                              }}
+                            />
                           )}
                           {item.code?.map((cb, i) => (
                             <div key={i} className="code-wrap">

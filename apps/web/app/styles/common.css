@@ -150,6 +150,9 @@ input[type="search"]:focus { outline: 2px solid rgba(74,111,165,0.4); outline-of
 .pill-advanced { background: rgba(120,60,160,0.12); color: #7b3fb8; }
 .item-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.78; }
 .item-desc code { font-family: "SF Mono","Fira Code","Consolas",monospace; font-size: 0.88em; background: rgba(36,49,38,0.07); padding: 1px 5px; border-radius: 4px; }
+.item-content > :first-child { margin-top: 0; }
+.item-content > :last-child { margin-bottom: 0; }
+.item-content p { margin: 0 0 12px; }
 .item-desc .crypto-flow-diagram {
   display: block;
   width: min(100%, 900px);

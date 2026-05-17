@@ -83,6 +83,10 @@
   padding: 10px;
 }
 
+.tech-guide .item-content .diagram-figure {
+  margin: 6px 0 10px;
+}
+
 .tech-guide .diagram-image {
   width: 100%;
   height: auto;

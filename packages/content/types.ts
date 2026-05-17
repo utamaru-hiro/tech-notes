@@ -14,7 +14,9 @@ export interface Item {
   title?: string;     // 技術ガイド向けの表示名
   name?: string;      // 言語ガイド向けの表示名
   level: 'basic' | 'advanced';
-  keywords: string;   // スペース区切り
+  keywords?: string;  // 言語ガイド検索用（スペース区切り、任意）
+  searchText?: string; // 技術ガイド検索用プレーンテキスト（任意）
+  contentHtml?: string; // 技術ガイド本文（HTML断片、任意）
   desc: string;       // プレーンテキスト（インラインコードはバッククォート）
   diagram?: DiagramAsset;
   code?: CodeBlock[];
